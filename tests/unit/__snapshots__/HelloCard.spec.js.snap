@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainCard.vue renders main card with 1 notification 1`] = `
+<div
+  class="hello"
+>
+  <!---->
+   
+  <h2>
+    Hola miguel, tienes una nueva notificación.
+  </h2>
+   
+  <!---->
+</div>
+`;
+
+exports[`MainCard.vue renders main card with 3 notifications 1`] = `
+<div
+  class="hello"
+>
+  <h2>
+    Hola miguel, tienes 3 nuevas notificaciones.
+  </h2>
+   
+  <!---->
+   
+  <!---->
+</div>
+`;
