@@ -8,10 +8,14 @@ export default {
     newError,
     appendMessage(state, {id, msg, candidature, owner}) {
         msg = {date: moment().unix(), id, candidature, owner, msg}
-        state.messages = [...state.messages, msg]
+        const messages = [...state.candidatureSelected.messages, msg]
+        state.candidatureSelected = {...state.candidatureSelected, messages}
     },
     setMessages(state, {messages}) {
         state.messages = [...messages]
+    },
+    setCandidatureSelected(state, {candidature}){
+        state.candidatureSelected = candidature
     },
     setMark(state, {index, mark}) {
         let array = state.evaluationForm

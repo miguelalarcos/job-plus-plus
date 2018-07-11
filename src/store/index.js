@@ -11,10 +11,10 @@ export default new Vuex.Store({
     name: 'miguel',
     errorMessage: "",
     successMessage: "",
-    messages: [
-      {"candidature": "0", "owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
-      {"candidature": "0", "owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}
-  ],
+    //messages: [
+    //  {"candidature": "0", "owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
+    //  {"candidature": "0", "owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}
+  //],
     candidateNewEvents: {'0': 2, '1': 3},
     offererNewEvents: {'0': 1},
     offererNewCandidates: {'0': 1},
@@ -40,7 +40,11 @@ export default new Vuex.Store({
         description: 'Se busca un programador en Python, tecnología API REST sobre Flask, y base de datos Mongodb...',
         candidateObservations: 'mis observaciones privadas',
         date: 1531223634.618518,
-        tags: ['python', 'flask']
+        tags: ['python', 'flask'],
+        messages: [
+          {"owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
+          {"owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}
+      ]
     },
     myCandidatures: {
       '0':{

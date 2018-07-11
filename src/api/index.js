@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export async function getMessages(candidature) {
-    let response = await axios.get('http://localhost:3000/messages/?candidature=' + candidature)
+const base_url = 'http://localhost:3000'
+
+export async function getFullCandidature(candidature) {
+    let response = await axios.get(base_url + '/candidature/' + candidature)
     return response.data
 }
-
-function getEvents(who, type) {}

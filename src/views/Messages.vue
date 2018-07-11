@@ -15,7 +15,6 @@
 <script>
 // @ is an alias to /src
 import MessageCard from '@/components/MessageCard.vue'
-import { method } from 'bluebird';
 
 export default {
   name: 'message',
@@ -25,7 +24,7 @@ export default {
       }
   },
   created: function(){
-    this.$store.dispatch('getMessagesAction', {candidature: this.$route.query.candidature})
+    this.$store.dispatch('getFullCandidatureAction', {candidature: this.$route.query.candidature})
   },
   components: {
     MessageCard
@@ -35,7 +34,7 @@ export default {
       return this.$store.state.candidatureSelected.title
     },
     messages() {
-      return this.$store.state.messages.slice().reverse()
+      return this.$store.state.candidatureSelected.messages.slice().reverse()
     }
   },
   methods:{

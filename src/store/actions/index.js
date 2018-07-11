@@ -1,4 +1,4 @@
-import { getMessages } from '@/api'
+import { getFullCandidature } from '@/api'
 
 export default {
     newError(context, msg) {
@@ -10,8 +10,8 @@ export default {
     appendMessageAction(context, {candidature, msg}) {
         context.commit('appendMessage', {id: Math.random(), msg, candidature, owner: 'miguel'})
     },
-    async getMessagesAction(context, {candidature}){
-        //const messages = await getMessages(candidature)
-        //context.commit('setMessages', {messages})
+    async getFullCandidatureAction(context, {candidature}){
+        const c = await getFullCandidature(candidature)
+        context.commit('setCandidatureSelected', {candidature: c})
     }
 }
