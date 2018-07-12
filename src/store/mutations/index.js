@@ -1,18 +1,20 @@
-import moment from 'moment'
 import { newError } from './errors'
 
 export default {
+    setLoading(state, {b}){
+        state.loading = b
+    },
     setNotifications(state, count){
         state.notifications = count
     },
     newError,
-    appendMessage(state, {id, msg, candidature, owner}) {
-        msg = {date: moment().unix(), id, candidature, owner, msg}
+    appendMessage(state, msg) {
         const messages = [...state.candidatureSelected.messages, msg]
         state.candidatureSelected = {...state.candidatureSelected, messages}
     },
     setMessages(state, {messages}) {
-        state.messages = [...messages]
+        messages = [...messages]
+        state.candidatureSelected = {...state.candidatureSelected, messages}
     },
     setCandidatureSelected(state, {candidature}){
         state.candidatureSelected = candidature

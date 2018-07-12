@@ -1,4 +1,4 @@
-import { getFullCandidature } from '@/api'
+import { getFullCandidature, appendMessage } from '@/api'
 
 export default {
     newError(context, msg) {
@@ -7,11 +7,15 @@ export default {
           context.commit('newError', '')
         }, 3000)
     },
-    appendMessageAction(context, {candidature, msg}) {
-        context.commit('appendMessage', {id: Math.random(), msg, candidature, owner: 'miguel'})
+    async appendMessageAction(context, {candidature, msg}) {
+        const messages = await appendMessage(candidature, msg)
+        context.commit('setMessages', {messages})
     },
-    async getFullCandidatureAction(context, {candidature}){
+    async getMessagesData(context, {candidature}){
+        //https://github.com/greyby/vue-spinner
+        context.commit('setLoading', {b: true})
         const c = await getFullCandidature(candidature)
         context.commit('setCandidatureSelected', {candidature: c})
+        context.commit('setLoading', {b:false})
     }
 }

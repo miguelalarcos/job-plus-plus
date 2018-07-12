@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="!loading" class="container">
     <h2>{{ title }}</h2>
     <span>Escribe un mensaje:</span>
     <textarea class="textarea-message" v-model="message" rows="5"></textarea>
@@ -9,6 +9,9 @@
     <span v-bind:key="item.id" v-for="item in messages">
       <MessageCard :item="item" />
     </span> 
+  </div>
+  <div v-else>
+    loading...
   </div>
 </template>
 
@@ -24,12 +27,16 @@ export default {
       }
   },
   created: function(){
-    this.$store.dispatch('getFullCandidatureAction', {candidature: this.$route.query.candidature})
+    //this.$store.commit('setLoading', {b: true})
+    this.$store.dispatch('getMessagesData', {candidature: this.$route.query.candidature})
   },
   components: {
     MessageCard
   },
   computed: {
+    loading() {
+      return this.$store.state.loading
+    },
     title() {
       return this.$store.state.candidatureSelected.title
     },

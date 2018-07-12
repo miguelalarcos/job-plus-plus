@@ -8,6 +8,7 @@ import actions from '@/store/actions'
 
 export default new Vuex.Store({
   state: {
+    loading: false,
     name: 'miguel',
     errorMessage: "",
     successMessage: "",
@@ -28,7 +29,7 @@ export default new Vuex.Store({
       {question: "sabes programar en vue?", answer: ""}
     ],
     candidatureSelected: {
-      id: '0',
+      /*id: '0',
         company: 'acme',
         status: 'open',
         candidate: 'maria',
@@ -44,11 +45,12 @@ export default new Vuex.Store({
         messages: [
           {"owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
           {"owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}
-      ]
+      ]*/
+      //messages: []
     },
     myCandidatures: {
-      '0':{
-        id: '0',
+      '5b4636872427e5423fcbfac2':{
+        id: '5b4636872427e5423fcbfac2',
         company: 'acme',
         status: 'open',
         candidate: 'maria',
