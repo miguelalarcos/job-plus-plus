@@ -22,6 +22,9 @@ export default {
     CandidatureCard,
     NotificationBar
   },
+  created: function(){
+    this.$store.dispatch('getCandidatureDataAction')
+  },
   methods: {
     candidatures() {
       return Object.values(this.$store.state.myCandidatures)

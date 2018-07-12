@@ -1,0 +1,7 @@
+{
+    "messages": [
+        {"candidature": "0", "owner": "maria", "msg": "he estudiado react.js", "date": "01/01/2018"},
+        {"candidature": "0", "owner": "maria", "msg": "he estudiado redux", "date": "01/01/2018"},
+        {"candidature": "0", "owner": "maria", "msg": "he estudiado vue.js", "date": "01/01/2018"}
+    ]
+}

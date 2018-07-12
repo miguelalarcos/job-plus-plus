@@ -27,7 +27,6 @@ export default {
       }
   },
   created: function(){
-    //this.$store.commit('setLoading', {b: true})
     this.$store.dispatch('getMessagesData', {candidature: this.$route.query.candidature})
   },
   components: {

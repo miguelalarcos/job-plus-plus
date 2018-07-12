@@ -16,7 +16,7 @@ export default new Vuex.Store({
     //  {"candidature": "0", "owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
     //  {"candidature": "0", "owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}
   //],
-    candidateNewEvents: {'0': 2, '1': 3},
+    candidateNewEvents: [],
     offererNewEvents: {'0': 1},
     offererNewCandidates: {'0': 1},
     evaluationForm: 

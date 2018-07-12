@@ -1,4 +1,5 @@
-import { getFullCandidature, appendMessage } from '@/api'
+import { getFullCandidature, appendMessage, candidatureSave, 
+    getCandidateMessageAggregation } from '@/api'
 
 export default {
     newError(context, msg) {
@@ -17,5 +18,13 @@ export default {
         const c = await getFullCandidature(candidature)
         context.commit('setCandidatureSelected', {candidature: c})
         context.commit('setLoading', {b:false})
+    },
+    async candidateSavesPropAction(context, {id, prop, value}){
+        const doc = await candidatureSave(id, prop, value)
+        context.commit('candidateSavesCandidature', {_id: doc._id, doc})
+    },
+    async getCandidatureDataAction(context){
+        const docs = await getCandidateMessageAggregation()
+        context.commit('candidateMessageAggregation', {docs})
     }
 }

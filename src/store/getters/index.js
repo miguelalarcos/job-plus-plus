@@ -47,7 +47,11 @@ export default {
         return sum;
     },
     candidateNewEvents: (state) => (candidature) => {
-        return state.candidateNewEvents[candidature]
+        const events = state.candidateNewEvents.filter(x => x._id === candidature)
+        if(events.length == 1) 
+            return events[0].total
+        else 
+            return 0
     },
     offererNewEvents: (state) => (offer) => {
         return state.offererNewEvents[offer]

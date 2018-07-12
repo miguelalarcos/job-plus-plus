@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     saveObservations(value) {
-        this.$store.commit('candidateSetsCandidature', {id: this.item.id, payload: {candidateObservations: value}})
+        this.$store.dispatch('candidateSavesPropAction', {id: this.item.id, prop: 'candidateObservations', value})
     },
     date() {
         return moment.unix(this.item.date).format("DD-MM-YYYY")

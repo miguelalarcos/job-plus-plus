@@ -26,12 +26,15 @@ export default {
             return {...item, mark}
         })
     },
-    candidateSavesObservation(state, {id, observations}){
-        const item = {...state.myCandidatures[id], observations}
-        state.myCandidatures = {...state.myCandidatures, [id]: item}
+    candidateSavesCandidature(state, {_id, doc}){ 
+        const item = {...state.myCandidatures[_id], ...doc} 
+        state.myCandidatures = {...state.myCandidatures, [_id]: item}
     },
     candidateSetsCandidature(state, {id, payload}) {
         const item = {...state.myCandidatures[id], ...payload}
         state.myCandidatures = {...state.myCandidatures, [id]: item}
+    },
+    candidateMessageAggregation(state, {docs}){
+        state.candidateNewEvents = docs
     }
 }
