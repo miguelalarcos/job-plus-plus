@@ -9,7 +9,8 @@
             <div>{{ date() }}</div>
             <div>{{this.item.description}}</div>
             <div class="textarea">
-                <textarea ref="obs" :rows="4" @input="saveObservations($event.target.value)" :value="this.item.candidateObservations"></textarea>
+                <!--<textarea ref="obs" :rows="4" @input="saveObservations($event.target.value)" :value="this.item.candidateObservations"></textarea>-->
+                <textarea v-stream:input="change$" ref="obs" :rows="4" :value="this.item.candidateObservations"></textarea>
                 <b-alert v-if="this.flag !== ''" class="flag" variant="success" show>{{ flag }}</b-alert>
                 <!--<b-button @click="pinta()" class="button" :size="'sm'" :variant="'primary'">Guardar</b-button>-->
             </div> 
@@ -27,12 +28,19 @@
 </template>
 
 <script>
+import { Subject, timer } from 'rxjs'
+import { switchMap } from 'rxjs/operators'
 import moment from 'moment'
 
 export default {
   name: 'CandidatureForCandidateCard',
   props: {
       item: Object
+  },
+  subscriptions(){
+    this.change$ = new Subject()
+    this.change$.pipe(switchMap(() => timer(2000))).subscribe(()=>this.saveObservations(this.$refs['obs'].value))
+    //switchMap(timer(0,2000)).subscribe((x)=>console.log(x.event.target.value))
   },
   computed: {
       flag(){
