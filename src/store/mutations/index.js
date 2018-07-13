@@ -7,6 +7,9 @@ export default {
     setNotifications(state, count){
         state.notifications = count
     },
+    setNotificationObservation(state, txt){
+        state.observationsSaved = txt
+    },
     newError,
     appendMessage(state, msg) {
         const messages = [...state.candidatureSelected.messages, msg]

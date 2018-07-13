@@ -12,6 +12,7 @@ export default new Vuex.Store({
     name: 'miguel',
     errorMessage: "",
     successMessage: "",
+    observationsSaved: "",
     //messages: [
     //  {"candidature": "0", "owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
     //  {"candidature": "0", "owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}

@@ -27,3 +27,10 @@ export async function getCandidateMessageAggregation(){
     let response = await axios.get(base_url + '/message-aggregation', {headers})
     return response.data
 }
+
+export async function setMessagesRead(candidature, props){
+    const headers = header
+    const data = {type: '$set', data: props}
+    let response = await axios.put(base_url + '/candidature/' + candidature, data, {headers})
+    return response.data
+}

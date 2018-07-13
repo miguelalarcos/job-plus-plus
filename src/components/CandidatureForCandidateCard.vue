@@ -9,8 +9,9 @@
             <div>{{ date() }}</div>
             <div>{{this.item.description}}</div>
             <div class="textarea">
-                <textarea :rows="4" @input="saveObservations($event.target.value)" :value="this.item.candidateObservations"></textarea>
-                <b-button class="button" :size="'sm'" :variant="'primary'">Guardar</b-button>
+                <textarea ref="obs" :rows="4" @input="saveObservations($event.target.value)" :value="this.item.candidateObservations"></textarea>
+                <b-alert v-if="this.flag !== ''" class="flag" variant="success" show>{{ flag }}</b-alert>
+                <!--<b-button @click="pinta()" class="button" :size="'sm'" :variant="'primary'">Guardar</b-button>-->
             </div> 
             <div>
                 <b-badge v-bind:key="tag" v-for="tag in item.tags" variant="success">{{ tag }}</b-badge>
@@ -34,6 +35,9 @@ export default {
       item: Object
   },
   computed: {
+      flag(){
+          return this.$store.state.observationsSaved
+      },
       newMessages() { return this.$store.getters.candidateNewEvents(this.item.id)},  //totalMessageNotifications
       status() { 
           const status = this.item.status
@@ -57,6 +61,9 @@ export default {
       }
   },
   methods: {
+    pinta(){
+        console.log(this.$refs['obs'].value)
+    },
     saveObservations(value) {
         this.$store.dispatch('candidateSavesPropAction', {id: this.item.id, prop: 'candidateObservations', value})
     },
@@ -106,7 +113,7 @@ border: 2px solid red;
     position:relative;
 }
 
-.button{
+.flag{
     position:absolute;
     bottom:10px;
     right:10px;
