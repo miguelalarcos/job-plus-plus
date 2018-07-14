@@ -6,7 +6,7 @@
     <b-button :disabled="message === ''" @click="append" :variant="'primary'">
       añadir mensaje
     </b-button>
-    <span v-bind:key="item.id" v-for="item in messages">
+    <span v-bind:key="item._id" v-for="item in messages">
       <MessageCard :item="item" />
     </span> 
   </div>

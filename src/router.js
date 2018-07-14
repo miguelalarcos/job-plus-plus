@@ -6,6 +6,7 @@ import CandidatesPage from './views/CandidatesPage.vue'
 import CandidaturePage from './views/MyCandidaturesPage.vue'
 import MessagesPage from './views/Messages.vue'
 import EvaluateForm from './views/EvaluateForm'
+import CandidatePage from './views/CandidatePage'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path: '/evaluate-form',
       name: 'evaluate-form',
       component: EvaluateForm
+    },
+    {
+      path: '/view-candidate',
+      name: 'view-candidate',
+      component: CandidatePage
     }
   ]
 })

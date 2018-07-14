@@ -1,7 +1,7 @@
 import { getFullCandidature, appendMessage, candidatureSave, 
     getCandidateMessageAggregation, setMessagesRead, getAllCandidatures,
 getTotalActivesAggregation, getAllOffers, getCandidaturesForOffer,
-getOffererMessageAggregation } from '@/api'
+getOffererMessageAggregation, getCandidateData } from '@/api'
 
 export default {
     newError(context, msg) {
@@ -69,5 +69,11 @@ export default {
     async getTotalActivesOfferAction(context, {offers}){
         const aggr = await getTotalActivesAggregation(offers)
         context.commit('setTotalActivesOffer', {aggr})
+    },
+    async getCandidateDataAction(context, {candidate}){
+        context.commit('setLoading', {b: true})
+        candidate = await getCandidateData(candidate)
+        context.commit('setCandidateData', {candidate})
+        context.commit('setLoading', {b:false})
     }
 }

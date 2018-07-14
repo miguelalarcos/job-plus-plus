@@ -16,6 +16,7 @@ export default new Vuex.Store({
     candidateNewEvents: [],
     offererNewEvents: {},
     offererNewCandidates: {'0': 1},
+    candidate: { },
     evaluationForm: 
       [
         {id: '0', question: "sabes programar en react?", answer: "https://jsfiddle.net/", mark: 0, observations: ''},

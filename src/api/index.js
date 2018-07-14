@@ -67,3 +67,9 @@ export async function getCandidaturesForOffer(offer){
     let response = await axios.get(base_url + '/candidatures/0/10?offer=' + offer, {headers})
     return response.data
 }
+
+export async function getCandidateData(candidate){
+    const headers = header
+    let response = await axios.get(base_url + '/candidate/' + candidate, {headers})
+    return response.data
+}

@@ -54,6 +54,9 @@ export default {
     setCandidatureSelected(state, {candidature}){
         state.candidatureSelected = candidature
     },
+    setCandidateData(state, {candidate}){
+        state.candidate = {...candidate}
+    },
     setMark(state, {index, mark}) {
         let array = state.evaluationForm
         state.evaluationForm = array.map((item, i) => {

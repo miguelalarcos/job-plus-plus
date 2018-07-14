@@ -11,7 +11,7 @@
             </div>   
             <div>Ver <a :href='"#/messages?candidature=" + this.item._id' variant="primary">mensajes.</a></div>
             <div>Ver cuestionario</div>
-            <div>Ver candidato</div>
+            <div><a :href='"#/view-candidate?candidate=" + item.user_id'>Ver candidato</a></div>
             <span v-if="this.item.status === 'open'">
                 <b-button @click="discard()" class="button" :size="'sm'" :variant="'danger'">Descartar</b-button>  
             </span>
