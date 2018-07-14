@@ -28,9 +28,42 @@ export async function getCandidateMessageAggregation(){
     return response.data
 }
 
+export async function getOffererMessageAggregation(){
+    const headers = header
+    let response = await axios.get(base_url + '/message-aggregation-offerer', {headers})
+    return response.data
+}
+
+export async function getTotalActivesAggregation(offer){
+    const headers = header
+    if(Array.isArray(offer)){
+        offer = offer.join()
+    }
+    let response = await axios.get(base_url + '/total-actives-aggregation/' + offer, {headers})
+    return response.data
+}
+
 export async function setMessagesRead(candidature, props){
     const headers = header
     const data = {type: '$set', data: props}
     let response = await axios.put(base_url + '/candidature/' + candidature, data, {headers})
+    return response.data
+}
+
+export async function getAllCandidatures(){
+    const headers = header
+    let response = await axios.get(base_url + '/candidatures/0/10', {headers})
+    return response.data
+}
+
+export async function getAllOffers(offerer){
+    const headers = header
+    let response = await axios.get(base_url + '/offers/0/10?offerer=' + offerer, {headers})
+    return response.data
+}
+
+export async function getCandidaturesForOffer(offer){
+    const headers = header
+    let response = await axios.get(base_url + '/candidatures/0/10?offer=' + offer, {headers})
     return response.data
 }

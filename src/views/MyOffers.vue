@@ -1,11 +1,16 @@
 <template>
-  <div class="home">
+  <div v-if="!loading" class="offerer">
     <NotificationBar />
-    <div class="container">
+    <b-button @click="filter=''">Todos</b-button>
+    <b-button @click="filter='open'">Activos</b-button> 
+    <div class="container"> 
       <span v-bind:key="item.id" v-for="item in offers()">
         <OfferCard :item="item" />
-      </span>
-    </div>  
+      </span>  
+    </div>
+  </div>
+  <div v-else>
+    loading...
   </div>
 </template>
 
@@ -20,10 +25,24 @@ export default {
     NotificationBar,
     OfferCard
   },
+  data: function(){
+    return {
+      filter: 'open'
+    }
+  },
+  created: function(){
+    this.$store.dispatch('getOfferDataAction', {offerer: this.$store.state.name})
+  },
   methods: {
     offers() {
-      return Object.values(this.$store.state.myOffers)
+      const c = Object.values(this.$store.state.myOffers)
+      return  c.filter((x) => x.status.startsWith(this.filter))
     }
+  },
+  computed:{
+    loading() {
+      return this.$store.state.loading
+    },
   }
 }
 </script>
@@ -36,3 +55,7 @@ export default {
   align-items: center;
 }
 </style>
+
+
+
+

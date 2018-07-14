@@ -12,13 +12,9 @@ export default new Vuex.Store({
     name: 'miguel',
     errorMessage: "",
     successMessage: "",
-    observationsSaved: "",
-    //messages: [
-    //  {"candidature": "0", "owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
-    //  {"candidature": "0", "owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}
-  //],
+    observationsSaved: {},
     candidateNewEvents: [],
-    offererNewEvents: {'0': 1},
+    offererNewEvents: {},
     offererNewCandidates: {'0': 1},
     evaluationForm: 
       [
@@ -29,93 +25,10 @@ export default new Vuex.Store({
       {question: "sabes programar en react?", answer: ""},
       {question: "sabes programar en vue?", answer: ""}
     ],
-    candidatureSelected: {
-      /*id: '0',
-        company: 'acme',
-        status: 'open',
-        candidate: 'maria',
-        mark: '5',
-        offer: '0',
-        offerer: 'acme',
-        province: 'Murcia',
-        title: 'oferta python',
-        description: 'Se busca un programador en Python, tecnología API REST sobre Flask, y base de datos Mongodb...',
-        candidateObservations: 'mis observaciones privadas',
-        date: 1531223634.618518,
-        tags: ['python', 'flask'],
-        messages: [
-          {"owner": "maria", "msg": "he estudiado react.js, así como redux y las acciones", "date": 1531223634.618518},
-          {"owner": "maria", "msg": "he estudiado vue.js, así como rxjs y el streaming de inputs.", "date": 1531223634.618518}
-      ]*/
-      //messages: []
-    },
-    myCandidatures: {
-      '5b4636872427e5423fcbfac2':{
-        id: '5b4636872427e5423fcbfac2',
-        company: 'acme',
-        status: 'open',
-        candidate: 'maria',
-        mark: '5',
-        offer: '0',
-        offerer: 'acme',
-        province: 'Murcia',
-        title: 'oferta python',
-        description: 'Se busca un programador en Python, tecnología API REST sobre Flask, y base de datos Mongodb...',
-        candidateObservations: 'mis observaciones privadas',
-        date: 1531223634.618518,
-        tags: ['python', 'flask']
-      },
-      '1':{
-        id: '1',
-        company: 'acme',
-        status: 'discarded',
-        candidate: 'maria',
-        mark: '7',
-        offer: '0',
-        offerer: 'BP',
-        province: 'Murcia',
-        title: 'oferta react.js',
-        description: 'Se busca un programador frontend en React.js...',
-        candidateObservations: '',
-        date: 1531223634.618518,
-        tags: ['react.js']
-      }
-    },
-    candidaturesForOfferer: {
-      '0':{
-        id: '0',
-        company: 'acme',
-        status: 'open',
-        candidate: 'maria',
-        mark: '5',
-        offer: '0',
-        offerer: 'acme',
-        province: 'Murcia',
-        title: 'oferta python',
-        description: 'Se busca un programador en Python, tecnología API REST sobre Flask, y base de datos Mongodb...',
-        offererObservations: 'mis observaciones privadas'
-      }
-    },
-    myOffers: {
-      '0': {
-        id: '0',
-        owner: 'acme',
-        total:  5,
-        active: 3,
-        title: 'backend python',
-        description: 'buscamos un developer backend python, basado en flask',
-        date: 1531223634.618518
-      },
-      '1': {
-        id: '1',
-        owner: 'acme',
-        total:  10,
-        active: 7,
-        title: 'front-end vue.js',
-        description: 'buscamos un developer front-end basado en la tecnología vue.js',
-        date: 1531223634.618518
-      }
-    },
+    candidatureSelected: {},
+    myCandidatures: {},
+    candidaturesForOfferer: {},
+    myOffers: {},
   },
   getters:{
     ...getters

@@ -27,7 +27,7 @@ export default {
       }
   },
   created: function(){
-    this.$store.dispatch('getMessagesData', {candidature: this.$route.query.candidature})
+    this.$store.dispatch('getMessagesDataAction', {candidature: this.$route.query.candidature})
   },
   components: {
     MessageCard

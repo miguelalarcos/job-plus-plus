@@ -3,7 +3,7 @@
     <div v-bind:class="classBorder" class="card2">
         <div class="container2"> 
             <h2>{{this.item.company}} 
-                <a v-if="newMessages" :href='"#/messages?candidature=" + this.item.id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
+                <a v-if="newMessages" :href='"#/messages?candidature=" + this.item._id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
             </h2>
             <div><a :href='"#/offer/" + this.item.offer'><b>{{this.item.title}}, {{ this.item.province }}</b></a></div> 
             <div>{{ date() }}</div>
@@ -11,15 +11,15 @@
             <div class="textarea">
                 <!--<textarea ref="obs" :rows="4" @input="saveObservations($event.target.value)" :value="this.item.candidateObservations"></textarea>-->
                 <textarea v-stream:input="change$" ref="obs" :rows="4" :value="this.item.candidateObservations"></textarea>
-                <b-alert v-if="this.flag !== ''" class="flag" variant="success" show>{{ flag }}</b-alert>
+                <b-alert v-if="this.flag !== '' && this.flag !== undefined" class="flag" variant="success" show>{{ flag }}</b-alert>
                 <!--<b-button @click="pinta()" class="button" :size="'sm'" :variant="'primary'">Guardar</b-button>-->
             </div> 
             <div>
                 <b-badge v-bind:key="tag" v-for="tag in item.tags" variant="success">{{ tag }}</b-badge>
             </div>   
-            <div>Ver <a :href='"#/messages?candidature=" + this.item.id' variant="primary">mensajes.</a></div>   
+            <div>Ver <a :href='"#/messages?candidature=" + this.item._id' variant="primary">mensajes.</a></div>   
             <div>
-                <span>activos: 7</span>
+                <span>activos: {{item.actives}}</span>
                 <span v-bind:class="classObject"><u>{{ status }}</u></span>
             </div>
         </div>
@@ -40,13 +40,15 @@ export default {
   subscriptions(){
     this.change$ = new Subject()
     this.change$.pipe(switchMap(() => timer(2000))).subscribe(()=>this.saveObservations(this.$refs['obs'].value))
-    //switchMap(timer(0,2000)).subscribe((x)=>console.log(x.event.target.value))
+  },
+  created: function(){
+      this.$store.dispatch('getTotalActivesAction', {candidature: this.item._id, offer: this.item.offer})
   },
   computed: {
       flag(){
-          return this.$store.state.observationsSaved
+          return this.$store.state.observationsSaved[this.item._id]
       },
-      newMessages() { return this.$store.getters.candidateNewEvents(this.item.id)},  //totalMessageNotifications
+      newMessages() { return this.$store.getters.candidateNewEvents(this.item._id)},  //totalMessageNotifications
       status() { 
           const status = this.item.status
           if(status === 'open') return 'abierto'
@@ -73,7 +75,7 @@ export default {
         console.log(this.$refs['obs'].value)
     },
     saveObservations(value) {
-        this.$store.dispatch('candidateSavesPropAction', {id: this.item.id, prop: 'candidateObservations', value})
+        this.$store.dispatch('savesPropAction', {id: this.item._id, prop: 'candidateObservations', value})
     },
     date() {
         return moment.unix(this.item.date).format("DD-MM-YYYY")

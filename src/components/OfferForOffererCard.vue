@@ -8,8 +8,8 @@
             </h2>
             <div>{{this.item.description}}</div>
             <div>Editar <a :href='"#/offer?id=" + this.item.id'>oferta</a></div>
-            <div>Ver <a :href='"#/candidates-for-offer?offer=" + this.item.id' variant="primary">candidaturas.</a></div>
-            <div>Total de candidatos activos: <span>{{ item.active }}</span>.</div>
+            <div>Ver <a :href='"#/candidates-for-offer?offer=" + this.item._id' variant="primary">candidaturas.</a></div>
+            <div>Total de candidatos activos: <span>{{ item.actives }}</span>.</div>
         </div>
     </div>
 </span>
