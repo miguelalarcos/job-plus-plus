@@ -1,7 +1,9 @@
 import { getFullCandidature, appendMessage, candidatureSave, 
     getCandidateMessageAggregation, setMessagesRead, getAllCandidatures,
 getTotalActivesAggregation, getAllOffers, getCandidaturesForOffer,
-getOffererMessageAggregation, getCandidateData } from '@/api'
+getOffererMessageAggregation, getCandidateData, appendExperience, 
+setExperience, getUserData, getSearchOffers, createCandidature,
+getAlreadySubscribed } from '@/api'
 
 export default {
     newError(context, msg) {
@@ -13,6 +15,18 @@ export default {
     async appendMessageAction(context, {candidature, msg}) {
         const messages = await appendMessage(candidature, msg)
         context.commit('setMessages', {messages})
+    },
+    async appendExperienceAction(context, {user_id, experience}){
+        const user = await appendExperience(user_id, experience)
+        context.commit('setUser', {user})
+    },
+    async setExperienceAction(context, {user_id, path, value, index}){
+        const user = await setExperience(user_id, path, value)
+        context.commit('setUser', {user})
+        context.commit('setNotificationObservation', {id: index, txt: 'guardado'})
+        setTimeout(() => {
+            context.commit('setNotificationObservation', {id: index, txt: ''})
+        }, 1500)
     },
     async getMessagesDataAction(context, {candidature}){
         //https://github.com/greyby/vue-spinner
@@ -61,6 +75,20 @@ export default {
         context.commit('setTotalActivesOffer', {aggr})
         context.commit('setLoading', {b:false})
     },
+    async getSearchOfferDataAction(context, {tags}){
+        context.commit('setLoading', {b: true})
+        const offers = await getSearchOffers(tags)
+        context.commit('setSearchOffers', {offers})
+        const ids = offers.map((x)=>x._id)
+        const aggr = await getTotalActivesAggregation(ids)
+        context.commit('setTotalActivesSearchOffer', {aggr})
+        const already = await getAlreadySubscribed(offers)
+        context.commit('setAlreadySubscribed', {already})
+        context.commit('setLoading', {b:false})
+    },
+    async suscribirseAction(context, {candidature}){
+        await createCandidature(candidature)
+    },
     async getTotalActivesAction(context, {candidature, offer}){
         const aggr = await getTotalActivesAggregation(offer)
         const total = aggr[0]['total']
@@ -74,6 +102,12 @@ export default {
         context.commit('setLoading', {b: true})
         candidate = await getCandidateData(candidate)
         context.commit('setCandidateData', {candidate})
+        context.commit('setLoading', {b:false})
+    },
+    async getUserDataAction(context, {user_id}){
+        context.commit('setLoading', {b: true})
+        const user = await getUserData(user_id)
+        context.commit('setUser', {user})
         context.commit('setLoading', {b:false})
     }
 }

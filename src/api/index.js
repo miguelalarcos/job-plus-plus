@@ -15,6 +15,29 @@ export async function appendMessage(candidature, msg){
     return response.data.messages
 }
 
+export async function getUserData(user_id){
+    const headers = header
+    let response = await axios.get(base_url + '/candidate/' + user_id, {headers})
+    return response.data
+}
+
+export async function appendExperience(user_id, exp){
+    const headers = header
+    const data = {type: '$push', data: [{path: 'experience', value: exp }]}
+    let response = await axios.put(base_url + '/add-experience/' + user_id, data, {headers})
+    return response.data
+}
+
+export async function setExperience(user_id, path, value){
+    const headers = header
+    let data = {type: '$set', data: [{path, value}]}
+    //let response = 
+    await axios.put(base_url + '/add-experience/' + user_id, data, {headers})
+    data = {type: '$set', data: [{path: 'tags', value: ''}]}
+    let response = await axios.put(base_url + '/add-experience/' + user_id, data, {headers})
+    return response.data
+}
+
 export async function candidatureSave(candidature, path, value){
     const headers = header
     const data = {type: '$set', data: [{path, value}]}
@@ -71,5 +94,28 @@ export async function getCandidaturesForOffer(offer){
 export async function getCandidateData(candidate){
     const headers = header
     let response = await axios.get(base_url + '/candidate/' + candidate, {headers})
+    return response.data
+}
+
+export async function getSearchOffers(tags){
+    const headers = header
+    if(Array.isArray(tags)){
+        tags = tags.join()
+    }
+    let response = await axios.get(base_url + '/search-offers/0/10?tags=' + tags, {headers})
+    return response.data
+}
+
+export async function getAlreadySubscribed(offers){
+    const headers = header
+    offers = offers.map(x=>x._id)
+    offers = offers.join()
+    let response = await axios.get(base_url + '/already-subscribed-aggregation/' + offers, {headers})
+    return response.data
+}
+
+export async function createCandidature(candidature){
+    const headers = header
+    let response = await axios.post(base_url + '/candidatures', candidature, {headers})
     return response.data
 }

@@ -4,7 +4,7 @@
     <div>
         <div>{{candidate.phone}} {{candidate.email}}</div>
         <div v-bind:key="item._id" v-for="item in candidate.experience">
-            <b>{{item.tags.join(', ')}}</b>
+            <b>{{item.tags}}</b>
             <p class="body">{{item.description}}</p>
         </div>
     </div>     

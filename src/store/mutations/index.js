@@ -12,12 +12,28 @@ export default {
         const item = {...state.myCandidatures[candidature], actives: total}
         state.myCandidatures = {...state.myCandidatures, [candidature]: item}
     },
+    setTotalActivesSearchOffer(state, {aggr}){
+        aggr.forEach((x)=>{
+            const item = {...state.searchOffers[x._id], actives: x.total}
+            state.searchOffers = {...state.searchOffers, [x._id]: item}    
+        })
+    },
+    setUser(state, {user}){
+        state.user = {...user}
+    },
     setMyOffers(state, {offers}){
         const o = {}
         offers.forEach(element => {
             o[element._id] = element
         });
         state.myOffers = o
+    },
+    setSearchOffers(state, {offers}){
+        const o = {}
+        offers.forEach(element => {
+            o[element._id] = element
+        });
+        state.searchOffers = o
     },
     setCandidaturesForOffer(state, {candidatures}){
         const c = {}
@@ -83,5 +99,11 @@ export default {
     },
     offererMessageAggregation(state, {docs}){
         state.offererNewEvents = docs
+    },
+    setAlreadySubscribed(state, {already}){
+        already.forEach((x)=>{
+            const item = {...state.searchOffers[x._id], already: true}
+            state.searchOffers = {...state.searchOffers, [x._id]: item}    
+        })
     }
 }

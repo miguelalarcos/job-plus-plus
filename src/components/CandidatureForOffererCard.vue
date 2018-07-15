@@ -2,7 +2,7 @@
 <span>
     <div v-bind:class="classBorder" class="card2">
         <div class="container2"> 
-            <h3>{{this.item.candidate}} {{this.item.mark}}
+            <h3>{{this.item.candidate}}
                 <a v-if="newMessages" :href='"#/messages?candidature=" + this.item._id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
             </h3>
             <div class="textarea">

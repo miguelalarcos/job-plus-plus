@@ -7,6 +7,8 @@ import CandidaturePage from './views/MyCandidaturesPage.vue'
 import MessagesPage from './views/Messages.vue'
 import EvaluateForm from './views/EvaluateForm'
 import CandidatePage from './views/CandidatePage'
+import ExperiencePage from './views/ExperiencePage'
+import SearchOfferPage from './views/SearchOfferPage'
 
 Vue.use(Router)
 
@@ -46,6 +48,16 @@ export default new Router({
       path: '/view-candidate',
       name: 'view-candidate',
       component: CandidatePage
+    },
+    {
+      path: '/user-experiencies',
+      name: 'user-experiences',
+      component: ExperiencePage
+    },
+    {
+      path: '/search-offers',
+      name: 'search-offers',
+      component: SearchOfferPage
     }
   ]
 })

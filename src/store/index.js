@@ -10,13 +10,17 @@ export default new Vuex.Store({
   state: {
     loading: false,
     name: 'miguel',
+    user: {
+      //user_id: '5b4a116e2427e5423fcbfac4',
+      //experience: []
+    },
     errorMessage: "",
     successMessage: "",
     observationsSaved: {},
     candidateNewEvents: [],
     offererNewEvents: {},
     offererNewCandidates: {'0': 1},
-    candidate: { },
+    candidate: {},
     evaluationForm: 
       [
         {id: '0', question: "sabes programar en react?", answer: "https://jsfiddle.net/", mark: 0, observations: ''},
@@ -30,6 +34,21 @@ export default new Vuex.Store({
     myCandidatures: {},
     candidaturesForOfferer: {},
     myOffers: {},
+    searchOffers: {
+      /*'"5b3d58088b4ae963d3656009': {
+        "_id" : "5b3d58088b4ae963d3656009",
+        "title" : "oferta python",
+        "description" : "una oferta en python basada en bottle",
+        "province" : "Murcia",
+        "offerer" : "miguel",
+        "remote" : false,
+        "status" : "open",
+        "tags" : [ 
+            "python", 
+            "vue.js"
+        ]
+    }*/
+    },
   },
   getters:{
     ...getters
