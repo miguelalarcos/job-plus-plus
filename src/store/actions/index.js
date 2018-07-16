@@ -3,7 +3,7 @@ import { getFullCandidature, appendMessage, candidatureSave,
 getTotalActivesAggregation, getAllOffers, getCandidaturesForOffer,
 getOffererMessageAggregation, getCandidateData, appendExperience, 
 setExperience, getUserData, getSearchOffers, createCandidature,
-getAlreadySubscribed } from '@/api'
+getAlreadySubscribed, deleteExperience } from '@/api'
 
 export default {
     newError(context, msg) {
@@ -18,6 +18,10 @@ export default {
     },
     async appendExperienceAction(context, {user_id, experience}){
         const user = await appendExperience(user_id, experience)
+        context.commit('setUser', {user})
+    },
+    async deleteExperienceAction(context, {user_id, experience}){
+        const user = await deleteExperience(user_id, experience)
         context.commit('setUser', {user})
     },
     async setExperienceAction(context, {user_id, path, value, index}){
@@ -35,7 +39,7 @@ export default {
         context.commit('setCandidatureSelected', {candidature: c})
         context.commit('setLoading', {b:false})
         let props = []
-        const indexes = c.messages.map((e, index) => {return {owner:e.owner, index, b: e.unread === true}}).filter((e) => e.owner !== context.state.name && e.b === true)
+        const indexes = c.messages.map((e, index) => {return {owner:e.owner, index, b: e.unread === true}}).filter((e) => e.owner !== context.state.user.email && e.b === true)
         props = indexes.map((x) => {return {path: 'messages.' + x.index + '.unread', value: false} })
         if(props.length > 0)
             await setMessagesRead(candidature, props)

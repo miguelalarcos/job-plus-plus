@@ -19,6 +19,7 @@ export default {
         })
     },
     setUser(state, {user}){
+        console.log(user)
         state.user = {...user}
     },
     setMyOffers(state, {offers}){

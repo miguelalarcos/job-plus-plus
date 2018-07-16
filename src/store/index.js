@@ -9,7 +9,7 @@ import actions from '@/store/actions'
 export default new Vuex.Store({
   state: {
     loading: false,
-    name: 'miguel',
+    //name: 'miguel',
     user: {
       //user_id: '5b4a116e2427e5423fcbfac4',
       //experience: []

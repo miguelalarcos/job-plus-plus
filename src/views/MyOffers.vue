@@ -31,7 +31,7 @@ export default {
     }
   },
   created: function(){
-    this.$store.dispatch('getOfferDataAction', {offerer: this.$store.state.name})
+    this.$store.dispatch('getOfferDataAction', {offerer: this.$store.state.user.email})
   },
   methods: {
     offers() {
