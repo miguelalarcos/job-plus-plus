@@ -1,4 +1,5 @@
 import { newError } from './errors'
+import axios from 'axios';
 
 export default {
     setTotalActivesOffer(state, {aggr}){
@@ -19,8 +20,9 @@ export default {
         })
     },
     setUser(state, {user}){
-        console.log(user)
         state.user = {...user}
+        console.log(user)
+        axios.defaults.headers.common['Authorization'] = user.jwt;
     },
     setMyOffers(state, {offers}){
         const o = {}

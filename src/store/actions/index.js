@@ -3,7 +3,8 @@ import { getFullCandidature, appendMessage, candidatureSave,
 getTotalActivesAggregation, getAllOffers, getCandidaturesForOffer,
 getOffererMessageAggregation, getCandidateData, appendExperience, 
 setExperience, getUserData, getSearchOffers, createCandidature,
-getAlreadySubscribed, deleteExperience } from '@/api'
+getAlreadySubscribed, deleteExperience, getLogin } from '@/api'
+
 
 export default {
     newError(context, msg) {
@@ -72,10 +73,13 @@ export default {
     },
     async getOfferDataAction(context, {offerer}){
         context.commit('setLoading', {b: true})
+        console.log('llego 1')
         const offers = await getAllOffers(offerer)
+        console.log('llego 2')
         context.commit('setMyOffers', {offers})
         const ids = offers.map((x)=>x._id)
         const aggr = await getTotalActivesAggregation(ids)
+        console.log('llego 3')
         context.commit('setTotalActivesOffer', {aggr})
         context.commit('setLoading', {b:false})
     },
@@ -113,5 +117,10 @@ export default {
         const user = await getUserData(user_id)
         context.commit('setUser', {user})
         context.commit('setLoading', {b:false})
+    },
+    async getLoginAction(context, {name}){
+        console.log('previo get login')
+        const user = await getLogin(name)
+        context.commit('setUser', {user})
     }
 }
