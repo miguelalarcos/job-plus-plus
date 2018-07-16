@@ -9,6 +9,7 @@ import EvaluateForm from './views/EvaluateForm'
 import CandidatePage from './views/CandidatePage'
 import ExperiencePage from './views/ExperiencePage'
 import SearchOfferPage from './views/SearchOfferPage'
+import LoginPage from './views/LoginPage'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/search-offers',
       name: 'search-offers',
       component: SearchOfferPage
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginPage
     }
   ]
 })
