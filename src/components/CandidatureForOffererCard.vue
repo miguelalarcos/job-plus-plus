@@ -2,16 +2,24 @@
 <span>
     <div v-bind:class="classBorder" class="card2">
         <div class="container2"> 
-            <h3>{{this.item.candidate}}
+            <div>{{this.item.candidate}}
                 <a v-if="newMessages" :href='"#/messages?candidature=" + this.item._id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
-            </h3>
+                <b-form-input class="mark" type="text" @input="set_mark($event)" :value="''+this.item.mark"></b-form-input>
+            </div>
             <div class="textarea">
                 <textarea placeholder="mis notas privadas" v-stream:input="change$" ref="obs" :rows="4" :value="this.item.offererObservations"></textarea>
                 <b-alert v-if="this.flag !== '' && this.flag !== undefined" class="flag" variant="success" show>{{ flag }}</b-alert>
             </div>   
             <div>Ver <a :href='"#/messages?candidature=" + this.item._id' variant="primary">mensajes.</a></div>
             <div>Ver cuestionario</div>
-            <div><a :href='"#/view-candidate?candidate=" + item.user_id'>Ver candidato</a></div>
+            <div>
+                <div v-if="read_all" v-bind:key=index v-for="(exp, index) in experiences">
+                    <div><b>{{exp.tags}}</b></div>
+                    <div>{{exp.description}}</div>
+                </div>
+                <span class="pointer" v-if="!read_all" @click="read_all=true; get_user_data()"><u>leer más</u></span>
+                <span class="pointer" v-if="read_all" @click="read_all=false"><u>menos</u></span>
+            </div>
             <span v-if="this.item.status === 'open'">
                 <b-button @click="discard()" class="button" :size="'sm'" :variant="'danger'">Descartar</b-button>  
             </span>
@@ -32,15 +40,24 @@ export default {
   props: {
       item: Object
   },
+  data: function(){
+      return {
+          read_all: false
+      }
+  },
   subscriptions(){
     this.change$ = new Subject()
     this.change$.pipe(switchMap(() => timer(2000))).subscribe(()=>this.saveObservations(this.$refs['obs'].value))
   },
   computed: {
+      experiences(){
+          const exps = this.$store.state.experiences[this.item.user_id]
+          return exps && exps.experience
+      },
       flag(){
           return this.$store.state.observationsSaved[this.item._id]
       },
-      newMessages() { return this.$store.getters.offererNewEvents(this.item._id)}, 
+      newMessages() { return this.$store.getters.candidateNewEvents(this.item._id)}, 
       status() { 
           const status = this.item.status
           if(status === 'open') return 'abierto'
@@ -63,6 +80,18 @@ export default {
       }
   },
   methods: {
+      get_user_data(){
+          this.$store.dispatch('getUserExperienceAction', {user_id: this.item.user_id})
+          this.$store.dispatch('setCandidatureReadAction', {candidature: this.item._id})
+      },
+      set_mark(event){
+          console.log(event, typeof(event))
+        let value = event
+        const patt = /^[+-]?\d+(\.\d+)?$/
+        if(value.match(patt))
+            value = parseFloat(value)  
+            this.$store.dispatch('savesPropAction', {id: this.item._id, prop: 'mark', value})              
+      },
       reactivate(){
         this.$store.dispatch('savesPropAction', {id: this.item._id, prop: 'status', value: 'open'})            
       },
@@ -121,4 +150,11 @@ border: 2px solid red;
     right:10px;
 }
 
+.mark{
+    width: 50px;
+}
+
+.pointer{
+    cursor: pointer;
+}
 </style>

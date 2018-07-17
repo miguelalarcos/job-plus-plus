@@ -18,6 +18,12 @@ export default {
     this.$store.dispatch('getLoginAction', {name: this.$route.query.name})
     console.log('despues del dispatch')
   },
+  mounted: function(){
+    console.log('mounted')
+  },
+  watch:{
+    '$route': (to, from) => console.log('watch', to, from)
+  },
   components: {
     
   },

@@ -3,7 +3,9 @@ import { getFullCandidature, appendMessage, candidatureSave,
 getTotalActivesAggregation, getAllOffers, getCandidaturesForOffer,
 getOffererMessageAggregation, getCandidateData, appendExperience, 
 setExperience, getUserData, getSearchOffers, createCandidature,
-getAlreadySubscribed, deleteExperience, getLogin } from '@/api'
+getAlreadySubscribed, deleteExperience, getLogin, 
+getTotalNewCandidatesAggregation, setCandidatureRead,
+getUnreadMessagesForCandidatures } from '@/api'
 
 
 export default {
@@ -57,10 +59,14 @@ export default {
     },
     async getCandidaturesForOfferAction(context, {offer}){
         context.commit('setLoading', {b: true})
-        const candidatures = await getCandidaturesForOffer(offer)
+        let candidatures = await getCandidaturesForOffer(offer)
         context.commit('setCandidaturesForOffer', {candidatures})
-        const docs = await getOffererMessageAggregation()
-        context.commit('offererMessageAggregation', {docs})
+        //const docs = await getOffererMessageAggregation()
+        //context.commit('offererMessageAggregation', {docs})
+        candidatures = candidatures.map(x=>x._id)
+        const docs = await getUnreadMessagesForCandidatures(candidatures)
+        context.commit('candidateMessageAggregation', {docs})
+
         context.commit('setLoading', {b:false})
     },
     async getCandidatureDataAction(context){
@@ -73,14 +79,17 @@ export default {
     },
     async getOfferDataAction(context, {offerer}){
         context.commit('setLoading', {b: true})
-        console.log('llego 1')
         const offers = await getAllOffers(offerer)
-        console.log('llego 2')
         context.commit('setMyOffers', {offers})
         const ids = offers.map((x)=>x._id)
         const aggr = await getTotalActivesAggregation(ids)
-        console.log('llego 3')
         context.commit('setTotalActivesOffer', {aggr})
+        const new_candidates = await getTotalNewCandidatesAggregation(ids)
+        context.commit('setTotalNewCandidates', {new_candidates})
+
+        const docs = await getOffererMessageAggregation()
+        context.commit('offererMessageAggregation', {docs})
+
         context.commit('setLoading', {b:false})
     },
     async getSearchOfferDataAction(context, {tags}){
@@ -118,9 +127,17 @@ export default {
         context.commit('setUser', {user})
         context.commit('setLoading', {b:false})
     },
+    async getUserExperienceAction(context, {user_id}){
+        console.log('llego has await get user data', user_id)
+        const user = await getUserData(user_id)
+        context.commit('setExperience', {_id: user_id, experience: user})
+    },
     async getLoginAction(context, {name}){
         console.log('previo get login')
         const user = await getLogin(name)
         context.commit('setUser', {user})
+    },
+    async setCandidatureReadAction(context, {candidature}){
+        await setCandidatureRead(candidature)
     }
 }

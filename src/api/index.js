@@ -24,7 +24,7 @@ export async function getLogin(name){
 }
 
 export async function getUserData(user_id){
-    
+    console.log('llego hast await axios.get candidate', user_id)
     let response = await axios.get(base_url + '/candidate/' + user_id)
     return response.data
 }
@@ -72,6 +72,19 @@ export async function getOffererMessageAggregation(){
     return response.data
 }
 
+export async function getTotalNewCandidatesAggregation(offers){
+    offers = offers.join()
+    let response = await axios.get(base_url + '/new-candidates/' + offers)
+    return response.data
+}
+
+export async function getUnreadMessagesForCandidatures(candidatures){
+    candidatures = candidatures.join()
+    let response = await axios.get(base_url + '/message-aggregation-candidates/' + candidatures)
+    console.log('**************', response.data)
+    return response.data
+}
+
 export async function getTotalActivesAggregation(offer){
     
     if(Array.isArray(offer)){
@@ -82,15 +95,20 @@ export async function getTotalActivesAggregation(offer){
 }
 
 export async function setMessagesRead(candidature, props){
-    
     const data = {type: '$set', data: props}
+    let response = await axios.put(base_url + '/candidature/' + candidature, data)
+    return response.data
+}
+
+export async function setCandidatureRead(candidature){
+    const data = {type: '$set', data: [{path: 'unread', value: false}]}
     let response = await axios.put(base_url + '/candidature/' + candidature, data)
     return response.data
 }
 
 export async function getAllCandidatures(){
     
-    let response = await axios.get(base_url + '/candidatures/0/10')
+    let response = await axios.get(base_url + '/candidatures/0/10?my=true')
     return response.data
 }
 

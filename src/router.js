@@ -10,10 +10,12 @@ import CandidatePage from './views/CandidatePage'
 import ExperiencePage from './views/ExperiencePage'
 import SearchOfferPage from './views/SearchOfferPage'
 import LoginPage from './views/LoginPage'
+import store from '@/store'
 
 Vue.use(Router)
 
-export default new Router({
+//export default new Router({
+const router = new Router({
   routes: [
     {
       path: '/',
@@ -67,3 +69,19 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (!store.state.user._id) {  
+      console.log(store.state.user.user_id)  
+      if (to.path !== '/login') {
+        console.log('/login')
+        next('/login?name=miguel.alarcos@gmail.com');
+      }else{
+        next()
+      }
+  } else {
+      next()
+  }
+})
+
+export default router

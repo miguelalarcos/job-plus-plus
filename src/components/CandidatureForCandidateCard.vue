@@ -98,7 +98,7 @@ border: 2px solid red;
 .card2 {
     width: 250px;
     margin: 5px;
-    background-color: beige;
+    background-color: #ffb3ba;
 }
 
 /* Add some padding inside the card container */

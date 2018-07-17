@@ -3,8 +3,8 @@
     <div class="yellow-border card2">
         <div class="container2"> 
             <h2>{{this.item.title}}
-                <b-badge variant="success" style="float: right">c{{ newCandidates }}</b-badge>
-                <b-badge variant="success" style="float: right">m{{ newMessages }}</b-badge>   
+                <b-badge variant="danger" style="float: right">{{ newCandidates }}</b-badge>
+                <b-badge variant="success" style="float: right">{{ newMessages }}</b-badge>   
             </h2>
             <div>{{this.item.description}}</div>
             <div>Editar <a :href='"#/offer?id=" + this.item.id'>oferta</a></div>
@@ -23,8 +23,8 @@ export default {
   },
   computed: {
       newCandidates() { 
-          return this.$store.state.offererNewCandidates[this.item.id]},
-      newMessages() { return this.$store.getters.offererNewEvents(this.item.id)}
+          return this.$store.state.offererNewCandidates[this.item._id]},
+      newMessages() { return this.$store.getters.offererNewEvents(this.item._id)}
   },
   methods: {
     

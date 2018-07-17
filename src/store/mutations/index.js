@@ -9,6 +9,12 @@ export default {
         })
         //state.myOffers = {...state.myOffers, ...helper}
     },
+    setTotalNewCandidates(state, {new_candidates}){
+        new_candidates.forEach(x => {
+            const item = {...state.offererNewCandidates[x._id], new_candidates: x.total}
+            state.offererNewCandidates = {...state.offererNewCandidates, [x._id]: item}
+        })
+    },
     setTotalActives(state, {candidature, total}){
         const item = {...state.myCandidatures[candidature], actives: total}
         state.myCandidatures = {...state.myCandidatures, [candidature]: item}
@@ -20,9 +26,8 @@ export default {
         })
     },
     setUser(state, {user}){
-        state.user = {...user}
-        console.log(user)
-        axios.defaults.headers.common['Authorization'] = user.jwt;
+        state.user = {...state.user, ...user}
+        axios.defaults.headers.common['Authorization'] = state.user.jwt;
     },
     setMyOffers(state, {offers}){
         const o = {}
@@ -76,13 +81,6 @@ export default {
     setCandidateData(state, {candidate}){
         state.candidate = {...candidate}
     },
-    setMark(state, {index, mark}) {
-        let array = state.evaluationForm
-        state.evaluationForm = array.map((item, i) => {
-            if(index !== i) return item
-            return {...item, mark}
-        })
-    },
     savesCandidature(state, {_id, doc}){ 
         if(state.myCandidatures[_id]){
             let item = {...state.myCandidatures[_id], ...doc} 
@@ -108,5 +106,8 @@ export default {
             const item = {...state.searchOffers[x._id], already: true}
             state.searchOffers = {...state.searchOffers, [x._id]: item}    
         })
+    },
+    setExperience(state, {_id, experience}){
+        state.experiences = {...state.experiences, [_id]: experience}
     }
 }

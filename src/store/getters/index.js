@@ -3,7 +3,7 @@ export default {
         const a1 = Object.values(state.events)
         const ret = a1.reduce((a, b) => a + b, 0)
         return ret 
-    },*/
+    },
     totalCandidateNotifications(state) {
         let count = 0
         for(let key in state.events) {
@@ -45,7 +45,7 @@ export default {
             }
         })
         return sum;
-    },
+    },*/
     candidateNewEvents: (state) => (candidature) => {
         const events = state.candidateNewEvents.filter(x => x._id === candidature)
         if(events.length == 1) 
@@ -54,6 +54,7 @@ export default {
             return 0
     },
     offererNewEvents: (state) => (offer) => {
+        console.log(offer)
         const events = state.offererNewEvents.filter(x => x._id === offer)
         if(events.length == 1) 
             return events[0].total

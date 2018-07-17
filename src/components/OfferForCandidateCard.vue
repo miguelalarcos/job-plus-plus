@@ -57,7 +57,8 @@ export default {
             status: 'open',
             tags: this.item.tags,
             offerer: this.item.offerer,
-            offer: this.item._id
+            offer: this.item._id,
+            messages: []
         }
         this.$store.dispatch('suscribirseAction', {candidature})
         this.$store.commit('setAlreadySubscribed', {already: [{_id: this.item._id}] } )
