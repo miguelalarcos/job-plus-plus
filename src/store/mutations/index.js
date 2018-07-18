@@ -30,6 +30,7 @@ export default {
         axios.defaults.headers.common['Authorization'] = state.user.jwt;
     },
     setMyOffers(state, {offers}){
+        console.log('*************', offers)
         const o = {}
         offers.forEach(element => {
             o[element._id] = element

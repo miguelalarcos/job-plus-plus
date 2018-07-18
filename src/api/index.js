@@ -17,14 +17,11 @@ export async function appendMessage(candidature, msg){
 }
 
 export async function getLogin(name){
-    console.log('previo axios.login')
     let response = await axios.get(base_url + '/login?name=' + name)
-    console.log('despues de axios.login')
     return response.data
 }
 
 export async function getUserData(user_id){
-    console.log('llego hast await axios.get candidate', user_id)
     let response = await axios.get(base_url + '/candidate/' + user_id)
     return response.data
 }
@@ -60,6 +57,12 @@ export async function candidatureSave(candidature, path, value){
     return response.data
 }
 
+export async function candidatureSaveProps(candidature, payload){
+    const data = {type: '$set', data: payload}
+    let response = await axios.put(base_url + '/candidature/' + candidature, data)
+    return response.data
+}
+
 export async function getCandidateMessageAggregation(){
     
     let response = await axios.get(base_url + '/message-aggregation')
@@ -81,7 +84,6 @@ export async function getTotalNewCandidatesAggregation(offers){
 export async function getUnreadMessagesForCandidatures(candidatures){
     candidatures = candidatures.join()
     let response = await axios.get(base_url + '/message-aggregation-candidates/' + candidatures)
-    console.log('**************', response.data)
     return response.data
 }
 
@@ -100,11 +102,11 @@ export async function setMessagesRead(candidature, props){
     return response.data
 }
 
-export async function setCandidatureRead(candidature){
+/*export async function setCandidatureRead(candidature){
     const data = {type: '$set', data: [{path: 'unread', value: false}]}
     let response = await axios.put(base_url + '/candidature/' + candidature, data)
     return response.data
-}
+}*/
 
 export async function getAllCandidatures(){
     
@@ -151,5 +153,12 @@ export async function getAlreadySubscribed(offers){
 export async function createCandidature(candidature){
     
     let response = await axios.post(base_url + '/candidatures', candidature)
+    return response.data
+}
+
+export async function updateOffer(offer, data){
+    data = {type: '$set', data}
+    console.log(data)
+    let response = await axios.put(base_url + '/offer/' + offer, data)
     return response.data
 }

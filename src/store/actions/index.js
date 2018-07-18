@@ -4,8 +4,8 @@ getTotalActivesAggregation, getAllOffers, getCandidaturesForOffer,
 getOffererMessageAggregation, getCandidateData, appendExperience, 
 setExperience, getUserData, getSearchOffers, createCandidature,
 getAlreadySubscribed, deleteExperience, getLogin, 
-getTotalNewCandidatesAggregation, setCandidatureRead,
-getUnreadMessagesForCandidatures } from '@/api'
+getTotalNewCandidatesAggregation, //setCandidatureRead,
+getUnreadMessagesForCandidatures, candidatureSaveProps, updateOffer } from '@/api'
 
 
 export default {
@@ -128,16 +128,25 @@ export default {
         context.commit('setLoading', {b:false})
     },
     async getUserExperienceAction(context, {user_id}){
-        console.log('llego has await get user data', user_id)
         const user = await getUserData(user_id)
         context.commit('setExperience', {_id: user_id, experience: user})
     },
     async getLoginAction(context, {name}){
-        console.log('previo get login')
         const user = await getLogin(name)
         context.commit('setUser', {user})
     },
     async setCandidatureReadAction(context, {candidature}){
-        await setCandidatureRead(candidature)
+        //const doc = await setCandidatureRead(candidature)
+        const doc = await candidatureSave(candidature, 'unread', false)
+        context.commit('savesCandidature', {_id: doc._id, doc})
+    },
+    async setCandidaturePropsAction(context, {candidature, payload}){
+        const doc = await candidatureSaveProps(candidature, payload)
+        context.commit('savesCandidature', {_id: doc._id, doc})
+    },
+    async updateOfferAction(context, {offer, data}){
+        offer = await updateOffer(offer, data)
+        const offers = [offer]
+        context.commit('setMyOffers', {offers})
     }
 }

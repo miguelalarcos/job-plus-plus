@@ -14,16 +14,16 @@ export default {
       return { }
   },
   created: function(){
-    console.log('created:', {name: this.$route.query.name})
+    //console.log('created:', {name: this.$route.query.name})
     this.$store.dispatch('getLoginAction', {name: this.$route.query.name})
-    console.log('despues del dispatch')
+    //console.log('despues del dispatch')
   },
-  mounted: function(){
-    console.log('mounted')
-  },
-  watch:{
-    '$route': (to, from) => console.log('watch', to, from)
-  },
+  //mounted: function(){
+  //  console.log('mounted')
+  //},
+  //watch:{
+  //  '$route': (to, from) => console.log('watch', to, from)
+  //},
   components: {
     
   },
