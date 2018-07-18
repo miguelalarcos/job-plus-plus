@@ -15,7 +15,7 @@
                 <b-button @click="edit=true">editar</b-button>
                 <div><b>{{ title }}</b></div>
                 <div>{{ description }}</div>
-                <div>tags: {{ tags }}</div>
+                <div><b>tags: {{ tags }}</b></div>
                 <div>Ver <a :href='"#/candidates-for-offer?offer=" + this.item._id' variant="primary">candidaturas.</a></div>
                 <div>Total de candidatos activos: <span>{{ item.actives }}</span>.</div>
             </div>
@@ -35,7 +35,7 @@ export default {
           edit: false,
           title: this.item.title,
           description: this.item.description,
-          tags: this.item.tags
+          tags: this.item.tags.join(',')
       }
   },
   computed: {
@@ -61,6 +61,7 @@ export default {
             {path: 'status', value: 'open'}
         ]
         this.$store.dispatch('updateOfferAction', {offer: this.item._id, data})
+        this.edit = false
     }
   }
 }

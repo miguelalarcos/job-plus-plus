@@ -9,7 +9,7 @@ getUnreadMessagesForCandidatures, candidatureSaveProps, updateOffer } from '@/ap
 
 
 export default {
-    newError(context, msg) {
+    newError(context, {msg}) {
         context.commit('newError', msg)
         setTimeout(() => {
           context.commit('newError', '')
@@ -78,29 +78,36 @@ export default {
         context.commit('setLoading', {b:false})
     },
     async getOfferDataAction(context, {offerer}){
-        context.commit('setLoading', {b: true})
-        const offers = await getAllOffers(offerer)
-        context.commit('setMyOffers', {offers})
-        const ids = offers.map((x)=>x._id)
-        const aggr = await getTotalActivesAggregation(ids)
-        context.commit('setTotalActivesOffer', {aggr})
-        const new_candidates = await getTotalNewCandidatesAggregation(ids)
-        context.commit('setTotalNewCandidates', {new_candidates})
-
-        const docs = await getOffererMessageAggregation()
-        context.commit('offererMessageAggregation', {docs})
-
-        context.commit('setLoading', {b:false})
+        try{
+            context.commit('setLoading', {b: true})
+            const offers = await getAllOffers(offerer)
+            if(offers.length > 0) {
+                context.commit('setMyOffers', {offers})
+                const ids = offers.map((x)=>x._id)
+                const aggr = await getTotalActivesAggregation(ids)
+                context.commit('setTotalActivesOffer', {aggr})
+                const new_candidates = await getTotalNewCandidatesAggregation(ids)
+                context.commit('setTotalNewCandidates', {new_candidates})
+                const docs = await getOffererMessageAggregation()
+                context.commit('offererMessageAggregation', {docs})
+            }
+            context.commit('setLoading', {b:false})
+        }catch(err){
+            console.log(err)
+            context.dispatch('newError', {msg: err})
+        }
     },
     async getSearchOfferDataAction(context, {tags}){
         context.commit('setLoading', {b: true})
         const offers = await getSearchOffers(tags)
-        context.commit('setSearchOffers', {offers})
-        const ids = offers.map((x)=>x._id)
-        const aggr = await getTotalActivesAggregation(ids)
-        context.commit('setTotalActivesSearchOffer', {aggr})
-        const already = await getAlreadySubscribed(offers)
-        context.commit('setAlreadySubscribed', {already})
+        if(offers.length > 0) {
+            context.commit('setSearchOffers', {offers})
+            const ids = offers.map((x)=>x._id)
+            const aggr = await getTotalActivesAggregation(ids)
+            context.commit('setTotalActivesSearchOffer', {aggr})
+            const already = await getAlreadySubscribed(offers)
+            context.commit('setAlreadySubscribed', {already})
+        }
         context.commit('setLoading', {b:false})
     },
     async suscribirseAction(context, {candidature}){
