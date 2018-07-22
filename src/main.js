@@ -1,3 +1,7 @@
+//import dotenv from 'dotenv'
+//dotenv.config({path: '/home/casa/dev/vue-projects/programming-jobs/..env'})
+//console.log('base url==>', process.env)
+
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'

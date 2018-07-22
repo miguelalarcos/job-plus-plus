@@ -72,7 +72,7 @@ export default {
   },
   methods: {
     pinta(){
-        console.log(this.$refs['obs'].value)
+        //console.log(this.$refs['obs'].value)
     },
     saveObservations(value) {
         this.$store.dispatch('savesPropAction', {id: this.item._id, prop: 'candidateObservations', value})

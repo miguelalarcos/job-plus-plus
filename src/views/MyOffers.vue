@@ -3,10 +3,12 @@
     <NotificationBar />
     <b-button @click="filter=''">Todos</b-button>
     <b-button @click="filter='open'">Activos</b-button> 
+    <b-button @click="newOffer()">Nueva oferta</b-button>
     <div class="container"> 
-      <span v-bind:key="item.id" v-for="item in offers()">
+      <span v-bind:key="item._id" v-for="item in offers()">
         <OfferCard :item="item" />
       </span>  
+      <b-button @click="loadMore()">Cargar más</b-button>
     </div>
   </div>
   <div v-else>
@@ -27,13 +29,21 @@ export default {
   },
   data: function(){
     return {
-      filter: 'open'
+      filter: 'open',
+      offset: 0
     }
   },
   created: function(){
-    this.$store.dispatch('getOfferDataAction', {offerer: this.$store.state.user.email})
+    this.$store.dispatch('getOfferDataAction', {offset: this.offset, offerer: this.$store.state.user.email})
   },
   methods: {
+    loadMore(){
+      this.offset = this.offset + 10
+      this.$store.dispatch('getOfferDataAction', {offset: this.offset, offerer: this.$store.state.user.email})      
+    },
+    newOffer(){
+      this.$store.dispatch('newOfferAction')
+    },
     offers() {
       const c = Object.values(this.$store.state.myOffers)
       return  c.filter((x) => x.status.startsWith(this.filter))
@@ -49,10 +59,10 @@ export default {
 
 <style lang="scss">
 .container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
+  //display: flex;
+  //flex-direction: row;
+  //flex-wrap: wrap;
+  //align-items: start;
 }
 </style>
 

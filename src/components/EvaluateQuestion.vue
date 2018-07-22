@@ -32,7 +32,6 @@ export default {
         return false;
     },
     changeMark(index) {
-        console.log('cambiar el mark de la question', index, 'por', this.mark)
         let mark = this.mark
         this.$store.commit('setMark', {index, mark})
     }

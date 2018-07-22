@@ -29,13 +29,18 @@ export default {
         state.user = {...state.user, ...user}
         axios.defaults.headers.common['Authorization'] = state.user.jwt;
     },
+    appendOffer(state, {offer}){
+        state.myOffers = {...state.myOffers, [offer._id]: offer}
+    },
     setMyOffers(state, {offers}){
-        console.log('*************', offers)
         const o = {}
         offers.forEach(element => {
             o[element._id] = element
         });
-        state.myOffers = o
+        state.myOffers = {...state.myOffers, ...o}
+    },
+    addMyOffers(state, {offer}){
+        state.myOffers = {...state.myOffers, [offer._id]: offer}
     },
     setSearchOffers(state, {offers}){
         const o = {}
@@ -66,6 +71,9 @@ export default {
     },
     setNotificationObservation(state, {id, txt}){
         state.observationsSaved = {...state.observationsSaved, [id]: txt}
+    },
+    setNotificationOfferSaved(state, {id, txt}){
+        state.myOffersSaved = {...state.myOffersSaved, [id]: txt}
     },
     newError,
     appendMessage(state, msg) {
@@ -110,5 +118,8 @@ export default {
     },
     setExperience(state, {_id, experience}){
         state.experiences = {...state.experiences, [_id]: experience}
+    },
+    setListOfTags(state, {tags}){
+        state.listOfTags = tags
     }
 }

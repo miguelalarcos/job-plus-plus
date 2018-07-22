@@ -1,8 +1,13 @@
 import axios from 'axios';
 
-const base_url = 'http://localhost:8081'
-//const header = {Authorization : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoibWlndWVsIiwicm9sZXMiOlsidXNlciIsIm9mZmVyZXIiXX0.C1zVkn7ztR7t4zcwLm_XFVFYxIIHSkO0z7gP7Lfc7Q4'}
-//const header = {Authorization : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJ1c2VyIiwib2ZmZXJlciJdLCJ1c2VyIjoibWlndWVsLmFsYXJjb3NAZ21haWwuY29tIn0.PVOvM-5P0aGcheUZeIULm2ngptuN9SgHQx0k9ni7fOQ'}
+let base_url = ''
+
+if(process.env.NODE_ENV === 'development'){
+    base_url = process.env.VUE_APP_ROOT_API 
+}
+else{
+    base_url = process.env.VUE_APP_ROOT_API_PROD
+}
 
 export async function getFullCandidature(candidature) {
     let response = await axios({method: 'get', url: base_url + '/candidature-with-messages/' + candidature})
@@ -114,10 +119,8 @@ export async function getAllCandidatures(){
     return response.data
 }
 
-export async function getAllOffers(offerer){
-    console.log('a')
-    let response = await axios.get(base_url + '/offers/0/10?offerer=' + offerer)
-    console.log('b')
+export async function getAllOffers(offerer, offset){
+    let response = await axios.get(base_url + '/offers/' + offset + '/10?offerer=' + offerer)
     return response.data
 }
 
@@ -127,7 +130,7 @@ export async function getCandidaturesForOffer(offer){
     return response.data
 }
 
-export async function getCandidateData(candidate){
+export async function getCandidateData(candidate){ //repe
     
     let response = await axios.get(base_url + '/candidate/' + candidate)
     return response.data
@@ -158,7 +161,21 @@ export async function createCandidature(candidature){
 
 export async function updateOffer(offer, data){
     data = {type: '$set', data}
-    console.log(data)
+    
     let response = await axios.put(base_url + '/offer/' + offer, data)
     return response.data
+}
+
+export async function newOffer(){
+    let response = await axios.post(base_url + '/offers', {})
+    return response.data
+}
+
+export async function searchTags(value){
+    let response = await axios.get(base_url + '/tags/0/10?value=' + value)
+    return response.data
+}
+
+export async function upsertTag(tag){
+    await axios.put(base_url + '/tags/' + tag)
 }

@@ -72,9 +72,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (!store.state.user._id) {  
-      console.log(store.state.user.user_id)  
       if (to.path !== '/login') {
-        console.log('/login')
         next('/login?name=miguel.alarcos@gmail.com');
       }else{
         next()

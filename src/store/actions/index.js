@@ -5,7 +5,8 @@ getOffererMessageAggregation, getCandidateData, appendExperience,
 setExperience, getUserData, getSearchOffers, createCandidature,
 getAlreadySubscribed, deleteExperience, getLogin, 
 getTotalNewCandidatesAggregation, //setCandidatureRead,
-getUnreadMessagesForCandidatures, candidatureSaveProps, updateOffer } from '@/api'
+getUnreadMessagesForCandidatures, candidatureSaveProps, updateOffer, newOffer,
+searchTags, upsertTag } from '@/api'
 
 
 export default {
@@ -77,12 +78,12 @@ export default {
         context.commit('candidateMessageAggregation', {docs})
         context.commit('setLoading', {b:false})
     },
-    async getOfferDataAction(context, {offerer}){
+    async getOfferDataAction(context, {offerer, offset}){
         try{
             context.commit('setLoading', {b: true})
-            const offers = await getAllOffers(offerer)
-            if(offers.length > 0) {
-                context.commit('setMyOffers', {offers})
+            const offers = await getAllOffers(offerer, offset)
+            context.commit('setMyOffers', {offers})
+            if(offers.length > 0) {                
                 const ids = offers.map((x)=>x._id)
                 const aggr = await getTotalActivesAggregation(ids)
                 context.commit('setTotalActivesOffer', {aggr})
@@ -93,15 +94,14 @@ export default {
             }
             context.commit('setLoading', {b:false})
         }catch(err){
-            console.log(err)
             context.dispatch('newError', {msg: err})
         }
     },
     async getSearchOfferDataAction(context, {tags}){
         context.commit('setLoading', {b: true})
         const offers = await getSearchOffers(tags)
+        context.commit('setSearchOffers', {offers})
         if(offers.length > 0) {
-            context.commit('setSearchOffers', {offers})
             const ids = offers.map((x)=>x._id)
             const aggr = await getTotalActivesAggregation(ids)
             context.commit('setTotalActivesSearchOffer', {aggr})
@@ -153,7 +153,23 @@ export default {
     },
     async updateOfferAction(context, {offer, data}){
         offer = await updateOffer(offer, data)
-        const offers = [offer]
-        context.commit('setMyOffers', {offers})
+        context.commit('addMyOffers', {offer})
+        context.commit('setNotificationOfferSaved', {id: offer._id, txt: 'guardado'})
+            setTimeout(() => {
+                context.commit('setNotificationOfferSaved', {id: offer._id, txt: ''})
+              }, 1500)
+    },
+    async newOfferAction(context){
+        const offer = await newOffer()
+        context.commit('appendOffer', {offer})
+    },
+    async searchTagsAction(context, {value}){
+        let tags = await searchTags(value)
+        //tags = tags.map(x => x.tag)
+        console.log(tags)
+        context.commit('setListOfTags', {tags})
+    },
+    async upsertTagAction(context, {tag}){
+        await upsertTag(tag)
     }
 }

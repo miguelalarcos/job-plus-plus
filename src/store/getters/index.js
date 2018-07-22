@@ -54,7 +54,6 @@ export default {
             return 0
     },
     offererNewEvents: (state) => (offer) => {
-        console.log(offer)
         const events = state.offererNewEvents.filter(x => x._id === offer)
         if(events.length == 1) 
             return events[0].total
