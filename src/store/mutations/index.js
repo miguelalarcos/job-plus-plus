@@ -39,6 +39,9 @@ export default {
         });
         state.myOffers = {...state.myOffers, ...o}
     },
+    resetMyOffers(state){
+        state.myOffers = {}
+    },
     addMyOffers(state, {offer}){
         state.myOffers = {...state.myOffers, [offer._id]: offer}
     },

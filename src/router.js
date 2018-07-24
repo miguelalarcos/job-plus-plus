@@ -10,12 +10,14 @@ import CandidatePage from './views/CandidatePage'
 import ExperiencePage from './views/ExperiencePage'
 import SearchOfferPage from './views/SearchOfferPage'
 import LoginPage from './views/LoginPage'
+import CallbackPage from './views/CallbackPage'
 import store from '@/store'
 
 Vue.use(Router)
 
 //export default new Router({
 const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -66,14 +68,19 @@ const router = new Router({
       path: '/login',
       name: 'login',
       component: LoginPage
+    },
+    {
+      path: '/callback',
+      name: 'callback',
+      component: CallbackPage
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
   if (!store.state.user._id) {  
-      if (to.path !== '/login') {
-        next('/login?name=miguel.alarcos@gmail.com');
+      if (to.path !== '/login' && to.path !== '/callback') {
+        next('/login');
       }else{
         next()
       }

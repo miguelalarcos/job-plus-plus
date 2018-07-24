@@ -3,9 +3,14 @@
     <div class="">
         <div class="container2"> 
             <div class="container3">
-                <div>
+                <!--<div>
                     <b-form-input v-model="tags" placeholder="tags separated by ," type="text" v-stream:input="change$"></b-form-input>
                 </div>
+                -->
+                <AutoComplete :action="'searchTagsAction'" placeholder="tags" v-on:added-tag="addTag($event)"></AutoComplete>
+                <div>
+                    <b-badge v-bind:key="tag" v-for="tag in item.tags" variant="success">{{ tag }} <span class="hand" @click="deleteTag(tag)">x</span></b-badge>
+                </div> 
                 <textarea v-model="description" class="textarea" v-stream:input="change$" :rows="6"></textarea>
                 <b-alert v-if="this.flag !== '' && this.flag !== undefined" class="flag" variant="success" show>{{ flag }}</b-alert>
                 <b-button class="flag" @click="deleteExperience()">eliminar</b-button> 
@@ -18,6 +23,7 @@
 <script>
 import { Subject, timer } from 'rxjs'
 import { switchMap, skip } from 'rxjs/operators'
+import AutoComplete from '@/components/AutoCompleteTagsInput'
 
 export default {
   name: 'ExperienceCard',
@@ -30,6 +36,9 @@ export default {
           tags: this.item.tags,
           description: this.item.description
       }
+  },
+  components: {
+    AutoComplete
   },
   created: function(){
       //setTimeout(()=>this.save=true, 3000)
@@ -44,13 +53,24 @@ export default {
       }
   },
   methods: {
-      saveExperience(tags, exp) {
+    deleteTag(tag){
+        const tags = this.item.tags.filter(x=>x !== tag)
+        this.save(tags, this.description)
+    },
+    addTag(tag){
+          if(tag !== '' && !this.item.tags.includes(tag)){
+              let tags = this.item.tags.slice()
+              this.saveExperience([...tags, tag], this.description)
+              this.$store.dispatch('upsertTagAction', {tag})
+          }
+      },    
+    saveExperience(tags, exp) {
         const value = {tags, description: exp}  
-        this.$store.dispatch('setExperienceAction', {user_id: this.$route.query.user_id, path: 'experience.' + this.index, value, index: this.index})
+        this.$store.dispatch('setExperienceAction', {user_id: this.$store.state.user._id, path: 'experience.' + this.index, value, index: this.index})
     },
     deleteExperience(){
         const value = {tags: this.tags, description: this.description}
-        this.$store.dispatch('deleteExperienceAction', {user_id: this.$route.query.user_id, experience: value})
+        this.$store.dispatch('deleteExperienceAction', {user_id: this.$store.state.user._id, experience: value})
     }
   }
 }

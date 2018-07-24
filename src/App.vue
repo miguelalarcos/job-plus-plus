@@ -4,7 +4,7 @@
       <router-link to="/">Mis ofertas</router-link> |
       <router-link to="/my-candidatures">Candidaturas</router-link> |
       <router-link to="/evaluate-form">Evaluate</router-link> |
-      <router-link to="/user-experiencies?user_id=5b4a116e2427e5423fcbfac4">Experiencias</router-link> |
+      <router-link to="/user-experiencies">Experiencias</router-link> |
       <router-link to="/search-offers">Search</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/login?name=miguel.alarcos@gmail.com">login miguel</router-link> |

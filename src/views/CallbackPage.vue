@@ -1,25 +1,31 @@
 <template>
-  <div class="container">
-    <!--<h2>Hola {{ name }}</h2>
-    <span>Estás logeado como {{ email }}</span>
-    -->
-    <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id=96da7965ccc12aa06055">login with github</a> 
-  </div>
+<div v-if="!loading">
+    <div class="container">
+        <h2>Hola {{ name }}!</h2>
+        <div>Estás logeado como {{ email }}</div>
+    </div>
+</div>
+<div v-else>
+    <pulse-loader :loading="loading"></pulse-loader>
+</div>
 </template>
 
 <script>
 // @ is an alias to /src
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
-  name: 'login',
+  name: 'callback',
   data: function(){
-      return { }
+      return { 
+          
+      }
   },
   created: function(){
-    //this.$store.dispatch('getLoginAction', {name: this.$route.query.name})
+      this.$store.dispatch('getLoginAction', {code: this.$route.query.code})
   },
   components: {
-    
+      PulseLoader
   },
   computed: {
     loading() {
@@ -31,9 +37,6 @@ export default {
     email(){
         return this.$store.state.user.email
     }
-  },
-  methods:{
-    
   }
 }
 </script>

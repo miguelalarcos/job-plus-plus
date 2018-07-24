@@ -13,6 +13,8 @@
                     <b-badge v-bind:key="tag" v-for="tag in item.tags" variant="success">{{ tag }} <span class="hand" @click="deleteTag(tag)">x</span></b-badge>
                 </div> 
                 <b-alert v-if="this.flag !== '' && this.flag !== undefined" class="flag" variant="success" show>{{ flag }}</b-alert>
+                <textarea v-bind:key="index" v-for="(q, index) in item.questions" class="form-control" v-stream:input="changeQuestions$" rows=4 :value="item.questions[index]"></textarea>
+                <b-button @click="newQuestion()">Añadir pregunta</b-button>
                 <b-button v-if="item.status === 'draft'" :variant="'primary'" :disabled="disabled()" @click="publish()">publicar</b-button>
                 <b-button @click="edit=false">no editar</b-button>
                 
@@ -46,8 +48,10 @@ export default {
   subscriptions(){
     this.changeTitle$ = new Subject()
     this.changeDescription$ = new Subject()
+    this.changeQuestions$ = new Subject()
     this.changeTitle$.pipe(skip(1), switchMap(() => timer(2000), (outer)=>outer.event.msg), distinctUntilChanged()).subscribe((x)=> this.save({path: 'title', value: x}))
     this.changeDescription$.pipe(skip(1), switchMap(() => timer(2000), (outer)=> outer.event.target.value), distinctUntilChanged()).subscribe((x)=> this.save({path: 'description', value: x}))
+    this.changeQuestions$.pipe(skip(1), switchMap(() => timer(2000), (outer)=> outer.event.target.value), distinctUntilChanged()).subscribe(()=> this.save({path: 'questions', value: this.questions.filter(x=>x !== '')}))
   },
   components: {
     AutoComplete
@@ -55,9 +59,8 @@ export default {
   data: function(){
       return {
           edit: this.item.title === undefined,
-          //title: this.item.title || '',
-          //description: this.item.description || '',
-          tags: this.item.tags
+          questions: []
+          //tags: this.item.tags
       }
   },
   computed: {
@@ -71,6 +74,9 @@ export default {
       newMessages() { return this.$store.getters.offererNewEvents(this.item._id)}
   },
   methods: {
+    newQuestion(){
+        this.questions = [...this.questions, ""]
+    },
     deleteTag(tag){
         const tags = this.item.tags.filter(x=>x !== tag)
         this.save({path: 'tags', value: tags})
@@ -103,15 +109,7 @@ export default {
         this.edit = false
     },
     save(data){
-        console.log(data)
         data = [data]
-        /*let data = [
-            {path: 'title', value: this.title},
-            {path: 'description', value: this.description},
-            {path: 'tags', value: this.tags},
-            {path: 'remote', value: false}
-        ]*/
-        console.log('dispatch updateOfferAction')
         this.$store.dispatch('updateOfferAction', {offer: this.item._id, data})
     }
   }

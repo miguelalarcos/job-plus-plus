@@ -138,9 +138,11 @@ export default {
         const user = await getUserData(user_id)
         context.commit('setExperience', {_id: user_id, experience: user})
     },
-    async getLoginAction(context, {name}){
-        const user = await getLogin(name)
+    async getLoginAction(context, {code}){
+        context.commit('setLoading', {b: true})
+        const user = await getLogin(code)
         context.commit('setUser', {user})
+        context.commit('setLoading', {b: false})
     },
     async setCandidatureReadAction(context, {candidature}){
         //const doc = await setCandidatureRead(candidature)
@@ -165,7 +167,7 @@ export default {
     },
     async searchTagsAction(context, {value}){
         let tags = await searchTags(value)
-        //tags = tags.map(x => x.tag)
+        tags = tags.map(x => {return {tag: x.name}})
         console.log(tags)
         context.commit('setListOfTags', {tags})
     },

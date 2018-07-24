@@ -5,7 +5,7 @@
     <b-button @click="filter='open'">Activos</b-button> 
     <b-button @click="newOffer()">Nueva oferta</b-button>
     <div class="container"> 
-      <span v-bind:key="item._id" v-for="item in offers()">
+      <span class="offer-card" v-bind:key="item._id" v-for="item in offers()">
         <OfferCard :item="item" />
       </span>  
       <b-button @click="loadMore()">Cargar más</b-button>
@@ -34,6 +34,8 @@ export default {
     }
   },
   created: function(){
+    //reset my offers
+    this.$store.commit('resetMyOffers')
     this.$store.dispatch('getOfferDataAction', {offset: this.offset, offerer: this.$store.state.user.email})
   },
   methods: {
@@ -59,10 +61,14 @@ export default {
 
 <style lang="scss">
 .container {
-  //display: flex;
-  //flex-direction: row;
-  //flex-wrap: wrap;
-  //align-items: start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.offer-card {
+  align-self: stretch;
 }
 </style>
 

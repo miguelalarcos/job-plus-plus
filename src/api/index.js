@@ -21,8 +21,8 @@ export async function appendMessage(candidature, msg){
     return response.data.messages
 }
 
-export async function getLogin(name){
-    let response = await axios.get(base_url + '/login?name=' + name)
+export async function getLogin(code){
+    let response = await axios.get(base_url + '/login?code=' + code)
     return response.data
 }
 
@@ -172,10 +172,14 @@ export async function newOffer(){
 }
 
 export async function searchTags(value){
-    let response = await axios.get(base_url + '/tags/0/10?value=' + value)
+    //let response = await axios.get(base_url + '/tags/0/10?value=' + value)
+    let url = 'https://api.stackexchange.com/2.2/tags?page=1&pagesize=100&order=desc&sort=popular&site=stackoverflow&inname='
+    url = url + value
+    let response = await axios.get(url)
     return response.data
 }
 
+// eslint-disable-next-line
 export async function upsertTag(tag){
-    await axios.put(base_url + '/tags/' + tag)
+    //await axios.put(base_url + '/tags/' + tag)
 }

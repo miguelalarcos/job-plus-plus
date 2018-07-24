@@ -3,7 +3,7 @@
     <div class="autocomplete">
         <input :placeholder="placeholder" v-model="value" v-on:keyup="keyup($event)" v-on:keyup.up="up()" v-on:keyup.down="down()" v-on:keyup.enter="enter()"/>
         <div class="autocomplete-items">
-            <div v-bind:class="classObject(index)" @click="clickItem(item)" v-bind:key="index" v-for="(item, index) in items()">{{item.tag}}, {{shortNumber(item.total)}}</div>
+            <div v-bind:class="classObject(index)" @click="clickItem(item)" v-bind:key="index" v-for="(item, index) in items()">{{item.tag}}</div>
         </div>
     </div>
 </span>
