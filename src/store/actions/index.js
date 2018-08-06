@@ -1,12 +1,13 @@
-import { getFullCandidature, appendMessage, candidatureSave, 
-    getCandidateMessageAggregation, setMessagesRead, getAllCandidatures,
+import { appendMessage, candidatureSave, 
+    getCandidateMessageAggregation, /*setMessagesRead*/ getAllCandidatures,
 getTotalActivesAggregation, getAllOffers, getCandidaturesForOffer,
 getOffererMessageAggregation, getCandidateData, appendExperience, 
 setExperience, getUserData, getSearchOffers, createCandidature,
 getAlreadySubscribed, deleteExperience, getLogin, 
 getTotalNewCandidatesAggregation, //setCandidatureRead,
 getUnreadMessagesForCandidatures, candidatureSaveProps, updateOffer, newOffer,
-searchTags, upsertTag } from '@/api'
+searchTags, upsertTag, updateProject, solicite, invite, getFakeLogin,
+getFullProject, getSearchProjects, getMyProjects, newProject, getMessagesData } from '@/api'
 
 
 export default {
@@ -16,10 +17,14 @@ export default {
           context.commit('newError', '')
         }, 3000)
     },
-    async appendMessageAction(context, {candidature, msg}) {
-        const messages = await appendMessage(candidature, msg)
-        context.commit('setMessages', {messages})
-    },
+    async appendMessageAction(context, {id, msg}) {
+        const message = await appendMessage(id, msg)
+        context.commit('appendMessage', {message})
+    }/*,
+    async appendProjectMessageAction(context, {project, msg}){
+        const messages = await appendMessage(project, msg)
+        context.commit('setProjectMessages', {messages})
+    }*/,
     async appendExperienceAction(context, {user_id, experience}){
         const user = await appendExperience(user_id, experience)
         context.commit('setUser', {user})
@@ -36,17 +41,40 @@ export default {
             context.commit('setNotificationObservation', {id: index, txt: ''})
         }, 1500)
     },
-    async getMessagesDataAction(context, {candidature}){
+    async getPerojectsDataAction(context) {
+        context.commit('setLoading', {b: true})
+        const ps = await getMyProjects()
+        context.commit('setMyProjects', {projects: ps})
+        context.commit('setLoading', {b:false})
+    },
+    async getProjectMessagesDataAction(context, {project}){
+        context.commit('setLoading', {b: true})
+        const p = await getFullProject(project)
+        context.commit('setProjectSelected', {project: p})
+        context.commit('setLoading', {b:false})
+        /*let props = []
+        const indexes = p.messages.map((e, index) => {return {owner:e.owner, index, b: e.unread === true}}).filter((e) => e.owner !== context.state.user.login && e.b === true)
+        props = indexes.map((x) => {return {path: 'messages.' + x.index + '.unread', value: false} })
+        if(props.length > 0)
+            await setProjectMessagesRead(candidature, props)
+    */},
+    async getMessagesDataAction(context, {id}){
         //https://github.com/greyby/vue-spinner
+        context.commit('setLoading', {b: true})
+        const messages = await getMessagesData(id)
+        context.commit('setMessages', {messages})
+        context.commit('setLoading', {b:false})
+        /*
         context.commit('setLoading', {b: true})
         const c = await getFullCandidature(candidature)
         context.commit('setCandidatureSelected', {candidature: c})
         context.commit('setLoading', {b:false})
         let props = []
-        const indexes = c.messages.map((e, index) => {return {owner:e.owner, index, b: e.unread === true}}).filter((e) => e.owner !== context.state.user.email && e.b === true)
+        const indexes = c.messages.map((e, index) => {return {owner:e.owner, index, b: e.unread === true}}).filter((e) => e.owner !== context.state.user.login && e.b === true)
         props = indexes.map((x) => {return {path: 'messages.' + x.index + '.unread', value: false} })
         if(props.length > 0)
             await setMessagesRead(candidature, props)
+        */
     },
     async savesPropAction(context, {id, prop, value}){
         const doc = await candidatureSave(id, prop, value)
@@ -97,6 +125,12 @@ export default {
             context.dispatch('newError', {msg: err})
         }
     },
+    async getSearchProjectDataAction(context, {tags}){
+        context.commit('setLoading', {b: true})
+        const offers = await getSearchProjects(tags)
+        context.commit('setSearchProjects', {offers})
+        context.commit('setLoading', {b:false})
+    },
     async getSearchOfferDataAction(context, {tags}){
         context.commit('setLoading', {b: true})
         const offers = await getSearchOffers(tags)
@@ -144,6 +178,12 @@ export default {
         context.commit('setUser', {user})
         context.commit('setLoading', {b: false})
     },
+    async getFakeLoginAction(context, {login}){
+        context.commit('setLoading', {b: true})
+        const user = await getFakeLogin(login)
+        context.commit('setUser', {user})
+        context.commit('setLoading', {b: false})
+    },
     async setCandidatureReadAction(context, {candidature}){
         //const doc = await setCandidatureRead(candidature)
         const doc = await candidatureSave(candidature, 'unread', false)
@@ -152,6 +192,14 @@ export default {
     async setCandidaturePropsAction(context, {candidature, payload}){
         const doc = await candidatureSaveProps(candidature, payload)
         context.commit('savesCandidature', {_id: doc._id, doc})
+    },
+    async updateProjectAction(context, {project, data}){
+        project = await updateProject(project, data)
+        context.commit('addMyProjects', {project})
+        context.commit('setNotificationProjectSaved', {id: project._id, txt: 'guardado'})
+            setTimeout(() => {
+                context.commit('setNotificationProjectSaved', {id: project._id, txt: ''})
+              }, 1500)
     },
     async updateOfferAction(context, {offer, data}){
         offer = await updateOffer(offer, data)
@@ -165,13 +213,24 @@ export default {
         const offer = await newOffer()
         context.commit('appendOffer', {offer})
     },
+    async newProjectAction(context){
+        const project = await newProject()
+        context.commit('appendProject', {project})
+    },
     async searchTagsAction(context, {value}){
         let tags = await searchTags(value)
-        tags = tags.map(x => {return {tag: x.name}})
-        console.log(tags)
+        //tags = tags.items.map(x => {return {tag: x.name}})
+        //tags = tags.items.map(x => {return {tag: x}})
+        tags = tags.map(x => {return {tag: x}})
         context.commit('setListOfTags', {tags})
     },
     async upsertTagAction(context, {tag}){
         await upsertTag(tag)
+    },
+    async soliciteAction(context, {user, project}){
+        await solicite(project, user)
+    },
+    async inviteAction(context, {user, project}){
+        await invite(project, user)
     }
 }

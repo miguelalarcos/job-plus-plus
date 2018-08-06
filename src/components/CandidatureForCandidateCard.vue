@@ -3,9 +3,9 @@
     <div v-bind:class="classBorder" class="card2">
         <div class="container2"> 
             <h2>{{this.item.company}} 
-                <a v-if="newMessages" :href='"#/messages?candidature=" + this.item._id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
+                <a v-if="newMessages" :href='"/messages?candidature=" + this.item._id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
             </h2>
-            <div><a :href='"#/offer/" + this.item.offer'><b>{{this.item.title}}, {{ this.item.province }}</b></a></div> 
+            <div><a :href='"/offer/" + this.item.offer'><b>{{this.item.title}}, {{ this.item.province }}</b></a></div> 
             <div>{{ date() }}</div>
             <div>{{this.item.description}}</div>
             <div class="textarea">
@@ -17,7 +17,7 @@
             <div>
                 <b-badge v-bind:key="tag" v-for="tag in item.tags" variant="success">{{ tag }}</b-badge>
             </div>   
-            <div>Ver <a :href='"#/messages?candidature=" + this.item._id' variant="primary">mensajes.</a></div>   
+            <div>Ver <a :href='"/messages?candidature=" + this.item._id' variant="primary">mensajes.</a></div>   
             <div>
                 <span>activos: {{item.actives}}</span>
                 <span v-bind:class="classObject"><u>{{ status }}</u></span>

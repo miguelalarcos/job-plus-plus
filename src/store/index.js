@@ -19,6 +19,9 @@ export default new Vuex.Store({
     listOfTags: [],
     observationsSaved: {},
     myOffersSaved: {},
+    myProjectsSaved: {},
+    myProjects: {},
+    messages: [],
     candidateNewEvents: [],
     offererNewEvents: [], //{},
     offererNewCandidates: {},
@@ -34,24 +37,12 @@ export default new Vuex.Store({
       {question: "sabes programar en vue?", answer: ""}
     ],
     candidatureSelected: {},
+    projectSelected: {},
     myCandidatures: {},
     candidaturesForOfferer: {},
     myOffers: {},
-    searchOffers: {
-      /*'"5b3d58088b4ae963d3656009': {
-        "_id" : "5b3d58088b4ae963d3656009",
-        "title" : "oferta python",
-        "description" : "una oferta en python basada en bottle",
-        "province" : "Murcia",
-        "offerer" : "miguel",
-        "remote" : false,
-        "status" : "open",
-        "tags" : [ 
-            "python", 
-            "vue.js"
-        ]
-    }*/
-    },
+    searchOffers: {},
+    searchProjects: {},
   },
   getters:{
     ...getters

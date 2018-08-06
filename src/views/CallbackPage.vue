@@ -1,8 +1,8 @@
 <template>
 <div v-if="!loading">
+    <NotificationBar />
     <div class="container">
         <h2>Hola {{ name }}!</h2>
-        <div>Estás logeado como {{ email }}</div>
     </div>
 </div>
 <div v-else>
@@ -13,6 +13,7 @@
 <script>
 // @ is an alias to /src
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import NotificationBar from '@/components/NotificationBar.vue'
 
 export default {
   name: 'callback',
@@ -25,7 +26,7 @@ export default {
       this.$store.dispatch('getLoginAction', {code: this.$route.query.code})
   },
   components: {
-      PulseLoader
+      PulseLoader, NotificationBar
   },
   computed: {
     loading() {
@@ -33,9 +34,6 @@ export default {
     },
     name() {
         return this.$store.state.user.name
-    },
-    email(){
-        return this.$store.state.user.email
     }
   }
 }

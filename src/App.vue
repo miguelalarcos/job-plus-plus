@@ -7,14 +7,27 @@
       <router-link to="/user-experiencies">Experiencias</router-link> |
       <router-link to="/search-offers">Search</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/login?name=miguel.alarcos@gmail.com">login miguel</router-link> |
+      <router-link to="/messages/0/100?id=5b686a078b4ae941f5790b6c">Mensajes</router-link> |
+      <!--<router-link to="/login?name=miguel.alarcos@gmail.com">login miguel</router-link> |
       <router-link to="/login?name=acme@acme.org">login acme</router-link>
+      -->
+      <router-link to="/my-projects">Mis proyectos</router-link>
     </div>
     <router-view/>
+    <div id="footer">
+      Contacto: miguel.alarcos@gmail.com
+    </div>  
   </div>
 </template>
 
 <style lang="scss">
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

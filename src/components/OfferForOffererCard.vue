@@ -26,7 +26,7 @@
                 <div>
                     <b-badge v-bind:key="tag" v-for="tag in item.tags" variant="success">{{ tag }}</b-badge>
                 </div> 
-                <div>Ver <a :href='"#/candidates-for-offer?offer=" + this.item._id' variant="primary">candidaturas.</a></div>
+                <div>Ver <a :href='"/candidates-for-offer?offer=" + this.item._id' variant="primary">candidaturas.</a></div>
                 <div v-if="item.actives" >Total de candidatos activos: <span>{{ item.actives }}</span>.</div>
                 <b-button @click="close()">cerrar</b-button>
             </div>
@@ -86,7 +86,7 @@ export default {
               //this.tags = [...this.tags, tag]
               let tags = this.item.tags.slice()
               this.save({path: 'tags', value: [...tags, tag]})
-              this.$store.dispatch('upsertTagAction', {tag})
+              //this.$store.dispatch('upsertTagAction', {tag})
           }
       },  
     disabled(){

@@ -4,14 +4,14 @@
         <div class="container2"> 
             <div>{{this.item.candidate}}
                 <b-badge v-if="item.unread" variant="danger" style="float: right">!</b-badge>
-                <a v-if="newMessages" :href='"#/messages?candidature=" + this.item._id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
+                <a v-if="newMessages" :href='"/messages?candidature=" + this.item._id' variant="primary"><b-badge variant="success" style="float: right">{{ newMessages }}</b-badge></a>   
                 <b-form-input v-bind:class="markBorder" ref="mark" class="mark" type="text" @input="set_mark($event)" :value="''+this.item.mark">Puntuación</b-form-input>
             </div>
             <div class="textarea">
                 <textarea placeholder="mis notas privadas" v-stream:input="change$" ref="obs" :rows="4" :value="this.item.offererObservations"></textarea>
                 <b-alert v-if="this.flag !== '' && this.flag !== undefined" class="flag" variant="success" show>{{ flag }}</b-alert>
             </div>   
-            <div>Ver <a :href='"#/messages?candidature=" + this.item._id' variant="primary">mensajes.</a></div>
+            <div>Ver <a :href='"/messages?candidature=" + this.item._id' variant="primary">mensajes.</a></div>
             <div>Ver cuestionario</div>
             <div>
                 <div v-if="read_all" v-bind:key=index v-for="(exp, index) in experiences">

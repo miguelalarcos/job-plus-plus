@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <!--<h2>Hola {{ name }}</h2>
-    <span>Estás logeado como {{ email }}</span>
-    -->
     <a href="https://github.com/login/oauth/authorize?scope=user:email&client_id=96da7965ccc12aa06055">login with github</a> 
+    <b-button @click="fake_login('miguelalarcos')">fake login miguelalarcos</b-button>
+    <b-button @click="fake_login('acme-sl')">fake login acme</b-button>
+    {{ name }}
   </div>
 </template>
 
@@ -27,13 +27,12 @@ export default {
     },
     name() {
         return this.$store.state.user.name
-    },
-    email(){
-        return this.$store.state.user.email
     }
   },
   methods:{
-    
+    fake_login(login) {
+      this.$store.dispatch('getFakeLoginAction', {login})
+    }
   }
 }
 </script>

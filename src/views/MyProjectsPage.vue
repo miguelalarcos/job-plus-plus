@@ -1,14 +1,14 @@
 <template>
-  <div v-if="!loading" class="offerer">
+  <div v-if="!loading">
     <NotificationBar />
     <b-button @click="filter=''">Todos</b-button>
     <b-button @click="filter='open'">Activos</b-button> 
-    <b-button @click="newOffer()">Nueva oferta</b-button>
-    <div class="container"> 
-      <span class="offer-card" v-bind:key="item._id" v-for="item in offers()">
-        <OfferCard :item="item" />
+    <b-button @click="newProject()">Nuevo proyecto</b-button>
+    <div class="container2"> 
+      <span class="project-card" v-bind:key="item._id" v-for="item in projects()">
+        <Card :item="item" />
       </span>  
-      <b-button @click="loadMore()">Cargar más</b-button>
+      <!--<b-button @click="loadMore()">Cargar más</b-button>-->
     </div>
   </div>
   <div v-else>
@@ -19,35 +19,35 @@
 <script>
 // @ is an alias to /src
 import NotificationBar from '@/components/NotificationBar.vue'
-import OfferCard from '@/components/OfferForOffererCard.vue'
+import Card from '@/components/ProjectCard.vue'
 
 export default {
-  name: 'MyOffers',
+  name: 'MyProjects',
   components: {
     NotificationBar,
-    OfferCard
+    Card
   },
   data: function(){
     return {
       filter: 'open',
-      offset: 0
+      //offset: 0
     }
   },
   created: function(){
     //reset my offers
-    this.$store.commit('resetMyOffers')
-    this.$store.dispatch('getOfferDataAction', {offset: this.offset, offerer: this.$store.state.user.login})
+    //this.$store.commit('resetMyOffers')
+    this.$store.dispatch('getPerojectsDataAction', {user: this.$store.state.user.login})
   },
   methods: {
-    loadMore(){
+    /*loadMore(){
       this.offset = this.offset + 10
       this.$store.dispatch('getOfferDataAction', {offset: this.offset, offerer: this.$store.state.user.login})      
+    },*/
+    newProject(){
+      this.$store.dispatch('newProjectAction')
     },
-    newOffer(){
-      this.$store.dispatch('newOfferAction')
-    },
-    offers() {
-      const c = Object.values(this.$store.state.myOffers)
+    projects() {
+      const c = Object.values(this.$store.state.myProjects)
       return  c.filter((x) => x.status.startsWith(this.filter))
     }
   },
@@ -60,14 +60,14 @@ export default {
 </script>
 
 <style lang="scss">
-.container {
+.container2 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
 }
 
-.offer-card {
+.project-card {
   align-self: stretch;
 }
 </style>

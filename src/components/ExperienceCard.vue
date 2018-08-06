@@ -61,7 +61,7 @@ export default {
           if(tag !== '' && !this.item.tags.includes(tag)){
               let tags = this.item.tags.slice()
               this.saveExperience([...tags, tag], this.description)
-              this.$store.dispatch('upsertTagAction', {tag})
+              //this.$store.dispatch('upsertTagAction', {tag})
           }
       },    
     saveExperience(tags, exp) {

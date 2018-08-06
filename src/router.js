@@ -4,20 +4,23 @@ import Home from './views/MyOffers.vue'
 import About from './views/About.vue'
 import CandidatesPage from './views/CandidatesPage.vue'
 import CandidaturePage from './views/MyCandidaturesPage.vue'
-import MessagesPage from './views/Messages.vue'
+import MessagesPage from './views/MessagesPage'
 import EvaluateForm from './views/EvaluateForm'
 import CandidatePage from './views/CandidatePage'
 import ExperiencePage from './views/ExperiencePage'
 import SearchOfferPage from './views/SearchOfferPage'
+import SearchProjectsPage from './views/SearchProjectPage'
+import MyProjectsPage from './views/MyProjectsPage'
 import LoginPage from './views/LoginPage'
 import CallbackPage from './views/CallbackPage'
+//import ProjectMessagesPage from './views/ProjectMessagesPage'
 import store from '@/store'
 
 Vue.use(Router)
 
 //export default new Router({
 const router = new Router({
-  mode: 'history',
+  //mode: 'history',
   routes: [
     {
       path: '/',
@@ -65,6 +68,16 @@ const router = new Router({
       component: SearchOfferPage
     },
     {
+      path: '/my-projects',
+      name: 'my-projects',
+      component: MyProjectsPage
+    },
+    {
+      path: '/search-projects',
+      name: 'search-projects',
+      component: SearchProjectsPage
+    },
+    {
       path: '/login',
       name: 'login',
       component: LoginPage
@@ -79,7 +92,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (!store.state.user._id) {  
-      if (to.path !== '/login' && to.path !== '/callback') {
+      if (to.path !== '/login' && to.path !== '/callback' && to.path !== '/about') {
         next('/login');
       }else{
         next()

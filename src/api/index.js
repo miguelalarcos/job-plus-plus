@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from 'axios'
+export * from './project'
 
 let base_url = ''
 
@@ -14,15 +15,32 @@ export async function getFullCandidature(candidature) {
     return response.data
 }
 
-export async function appendMessage(candidature, msg){
+export async function getFullProject(project) {
+    let response = await axios.get(base_url + '/project-with-messages/' + project)
+    return response.data
+}
+
+export async function appendMessage(id, message){
+    //const data = {type: '$push', data: [{path: 'messages', value: {msg} }]}
+    const data = {message, id}
+    let response = await axios.post(base_url + '/messages', data)
+    return response.data
+}
+
+export async function appendProjectMessage(project, msg){
     
     const data = {type: '$push', data: [{path: 'messages', value: {msg} }]}
-    let response = await axios.put(base_url + '/candidature-message/' + candidature, data)
+    let response = await axios.put(base_url + '/project-message/' + project, data)
     return response.data.messages
 }
 
 export async function getLogin(code){
     let response = await axios.get(base_url + '/login?code=' + code)
+    return response.data
+}
+
+export async function getFakeLogin(code){
+    let response = await axios.get(base_url + '/fake-login?login=' + code)
     return response.data
 }
 
@@ -100,6 +118,17 @@ export async function getTotalActivesAggregation(offer){
     let response = await axios.get(base_url + '/total-actives-aggregation/' + offer)
     return response.data
 }
+/*
+export async function setProjectMessagesRead(project, props){
+    const data = {type: '$set', data: props}
+    let response = await axios.put(base_url + '/project/' + project, data)
+    return response.data
+}*/
+
+export async function getMessagesData(id) {
+    let response = await axios.get(base_url + '/messages/0/10?id=' + id)
+    return response.data
+}
 
 export async function setMessagesRead(candidature, props){
     const data = {type: '$set', data: props}
@@ -145,6 +174,12 @@ export async function getSearchOffers(tags){
     return response.data
 }
 
+export async function getSearchProjects(tags){
+    tags = tags.join()
+    let response = await axios.get(base_url + '/search-projects/0/10?tags=' + tags)
+    return response.data
+}
+
 export async function getAlreadySubscribed(offers){
     
     offers = offers.map(x=>x._id)
@@ -166,17 +201,34 @@ export async function updateOffer(offer, data){
     return response.data
 }
 
+export async function updateProject(project, data){
+    data = {"$set": data}
+    
+    let response = await axios.put(base_url + '/project/' + project, data)
+    return response.data
+}
+
 export async function newOffer(){
     let response = await axios.post(base_url + '/offers', {})
     return response.data
 }
 
-export async function searchTags(value){
-    //let response = await axios.get(base_url + '/tags/0/10?value=' + value)
-    let url = 'https://api.stackexchange.com/2.2/tags?page=1&pagesize=100&order=desc&sort=popular&site=stackoverflow&inname='
-    url = url + value
-    let response = await axios.get(url)
+export async function newProject(){
+    let response = await axios.post(base_url + '/projects', {})
     return response.data
+}
+
+export async function searchTags(value){
+    /*let url = 'https://api.stackexchange.com/2.2/tags?page=1&pagesize=20&order=desc&sort=popular&site=stackoverflow&inname='
+    url = url + value
+    const instance_stackexange = axios.create({})
+    instance_stackexange.defaults.headers.common['Authorization'] = null
+    let response = await instance_stackexange.get(url)
+    return response.data
+    */
+   let response = await axios.get(base_url + '/tags?value=' + value)
+   return response.data
+   //return {items: ['javascript', 'python']}
 }
 
 // eslint-disable-next-line

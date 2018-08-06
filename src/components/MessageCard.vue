@@ -1,10 +1,10 @@
 <template>
     <div class="message">
         <div class="message-heading">
-            <span class="author">{{owner}}</span><span class="date"> el día {{date()}}</span>
+            <span class="author">{{item.author}}</span><span class="date"> el día {{date()}}</span>
         </div>
         <p class="message-body">
-            {{ msg }}
+            {{ item.message }}
         </p>
     </div>
 </template>
@@ -17,8 +17,7 @@ export default {
       item: Object
   },
   computed: {
-      owner() { return this.item.owner},
-      msg() { return this.item.msg},
+      owner() { return this.item.owner}
   },
   methods: {
       date() { return moment.unix(this.item.date).format('DD-MM-YYYY')}

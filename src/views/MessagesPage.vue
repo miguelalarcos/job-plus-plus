@@ -1,6 +1,6 @@
 <template>
   <div v-if="!loading" class="container">
-    <h2>{{ title }}</h2>
+    <h2>Título...</h2>
     <span>Escribe un mensaje:</span>
     <textarea class="textarea-message" v-model="message" rows="5"></textarea>
     <b-button :disabled="message === ''" @click="append" :variant="'primary'">
@@ -27,7 +27,7 @@ export default {
       }
   },
   created: function(){
-    this.$store.dispatch('getMessagesDataAction', {candidature: this.$route.query.candidature})
+    this.$store.dispatch('getMessagesDataAction', {id: this.$route.query.id})
   },
   components: {
     MessageCard
@@ -36,16 +36,13 @@ export default {
     loading() {
       return this.$store.state.loading
     },
-    title() {
-      return this.$store.state.candidatureSelected.title
-    },
     messages() {
-      return this.$store.state.candidatureSelected.messages.slice().reverse()
+      return this.$store.state.messages
     }
   },
   methods:{
     append() {
-        this.$store.dispatch('appendMessageAction', {candidature: this.$route.query.candidature, 
+        this.$store.dispatch('appendMessageAction', {id: this.$route.query.id, 
                                                msg: this.message})
         this.message = ''
     }

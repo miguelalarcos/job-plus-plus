@@ -12,6 +12,7 @@ import VueRx from 'vue-rx'
 Vue.use(VueRx)
 Vue.use(BootstrapVue)
 
+import '../public/main.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 

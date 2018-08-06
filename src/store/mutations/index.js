@@ -32,6 +32,9 @@ export default {
     appendOffer(state, {offer}){
         state.myOffers = {...state.myOffers, [offer._id]: offer}
     },
+    appendProject(state, {project}){
+        state.myProjects = {...state.myProjects, [project._id]: project}
+    },
     setMyOffers(state, {offers}){
         const o = {}
         offers.forEach(element => {
@@ -45,12 +48,29 @@ export default {
     addMyOffers(state, {offer}){
         state.myOffers = {...state.myOffers, [offer._id]: offer}
     },
+    addMyProjects(state, {project}){
+        state.myProjects = {...state.myProjects, [project._id]: project}
+    },
     setSearchOffers(state, {offers}){
         const o = {}
         offers.forEach(element => {
             o[element._id] = element
         });
         state.searchOffers = o
+    },
+    setSearchProjects(state, {projects}){
+        const o = {}
+        projects.forEach(element => {
+            o[element._id] = element
+        });
+        state.searchProjects = o
+    },
+    setMyProjects(state, {projects}){
+        const o = {}
+        projects.forEach(element => {
+            o[element._id] = element
+        });
+        state.myProjects = o
     },
     setCandidaturesForOffer(state, {candidatures}){
         const c = {}
@@ -78,17 +98,25 @@ export default {
     setNotificationOfferSaved(state, {id, txt}){
         state.myOffersSaved = {...state.myOffersSaved, [id]: txt}
     },
+    setNotificationProjectSaved(state, {id, txt}){
+        state.myProjectsSaved = {...state.myProjectsSaved, [id]: txt}
+    },
     newError,
-    appendMessage(state, msg) {
-        const messages = [...state.candidatureSelected.messages, msg]
-        state.candidatureSelected = {...state.candidatureSelected, messages}
+    appendMessage(state, {message}) {
+        state.messages = [message, ...state.messages]
     },
     setMessages(state, {messages}) {
+        state.messages = [...messages]
+    },
+    setProjectMessages(state, {messages}){
         messages = [...messages]
-        state.candidatureSelected = {...state.candidatureSelected, messages}
+        state.projectSelected = {...state.projectSelected, messages}
     },
     setCandidatureSelected(state, {candidature}){
         state.candidatureSelected = candidature
+    },
+    setProjectSelected(state, {project}){
+        state.projectSelected = project
     },
     setCandidateData(state, {candidate}){
         state.candidate = {...candidate}
